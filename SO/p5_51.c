@@ -1,3 +1,5 @@
+#include <unistd.h>
+#include <stdlib.h>
 #include <sys/types.h>    /* Servidor de la memoria compartida */ 
 #include <sys/ipc.h> /*(ejecutar el servidor antes de ejecutar el cliente)*/ 
 #include <sys/shm.h>
@@ -18,9 +20,9 @@ int main() {
 		exit(-1);
 	}
 	s = shm;
-	for (c = 'a'; c <= 'z'; c++)
+	for (c = 0; c <= 54; c++)
 		*s++ = c;
-	*s = ‘\0’;
+	*s = '\0';
 	while (*shm != '*')
 		sleep(1);
 	exit(0);

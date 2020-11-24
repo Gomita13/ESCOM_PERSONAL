@@ -1,8 +1,9 @@
+#include <stdlib.h>
 #include <sys/types.h>      /* Cliente de la memoria compartida */ 
 #include <sys/ipc.h> 
 #include <sys/shm.h> 
 #include <stdio.h> 
-#define TAM_MEM     27  /*Tamaño de la memoria compartida en bytes */ 
+#define TAM_MEM  27  /*Tamaño de la memoria compartida en bytes */ 
 int main() {     
 	int shmid;     
 	key_t llave;     
@@ -16,7 +17,7 @@ int main() {
     	perror("Error al enlazar la memoria compartida: shmat");
     		exit(-1);
     }
-    for (s = shm; *s != ‘\0’; s++)
+    for (s = shm; *s != '\0'; s++)
     	putchar(*s);     
     putchar('\n');     
     *shm = '*';     

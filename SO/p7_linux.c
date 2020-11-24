@@ -19,6 +19,7 @@
 #include <sys/wait.h>
 #include <stdio.h>
 #define N 10
+#define SEG_SIZE N*N*sizeof(int)
 
 
 /*
@@ -26,7 +27,13 @@
 	RECIBE: Apuntador a una matriz A y a una matriz B, ambas de tamaño NxN
 	DESCRIPCION: SUma dos matrices de NxN
 */
-void sumar(int *A, int *B){
+void sumar(int (*A)[10], int (*B)[10], int (*C)[10]){
+	int i = 0, j = 0;
+	for(i=0;i<N;i++){
+		for(j=0;j<N;j++){
+			C[i][j]=A[i][j]+B[i][j];
+		}
+	}
 	return;
 }
 
@@ -35,29 +42,34 @@ void sumar(int *A, int *B){
 	RECIBE: Apuntador a una matriz A y a una matriz B, ambas de tamaño NxN
 	DESCRIPCION: Multiplica dos matrices de NxN
 */
-void multiplicar(int *A, int *B){
+void multiplicar(int (*A)[10], int (*B)[10], int (*C)[10]){
+	
 	return;
 }
 
 void main(){
 	int pidH = 0, pidN = 0, i = 0, j = 0; //idHijo, idNieto
 	int A[10][10] = {{0,1,2,3,4,5,6,7,8,9},{9,8,7,6,5,4,3,2,1,0},{1,3,5,7,9,0,2,4,6,8},{0,1,2,3,4,5,6,7,8,9},{9,8,7,6,5,4,3,2,1,0},{1,3,5,7,9,0,2,4,6,8},{0,1,2,3,4,5,6,7,8,9},{0,1,2,3,4,5,6,7,8,9},{9,8,7,6,5,4,3,2,1,0},{1,3,5,7,9,0,2,4,6,8}};
-	//int B[10][10] = {{0,1,2,3,4,5,6,7,8,9},{9,8,7,6,5,4,3,2,1,0},{1,3,5,7,9,0,2,4,6,8},{0,1,2,3,4,5,6,7,8,9},{9,8,7,6,5,4,3,2,1,0},{1,3,5,7,9,0,2,4,6,8},{0,1,2,3,4,5,6,7,8,9},{0,1,2,3,4,5,6,7,8,9},{9,8,7,6,5,4,3,2,1,0},{1,3,5,7,9,0,2,4,6,8}};	
-	int (*ptr)[N] = (int (*)[N]) mmap(NULL,N*N*sizeof(int),PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANON,-1,0);
-	
-	if(ptr==MAP_FAILED){
+	int B[10][10] = {{0,1,2,3,4,5,6,7,8,9},{9,8,7,6,5,4,3,2,1,0},{1,3,5,7,9,0,2,4,6,8},{0,1,2,3,4,5,6,7,8,9},{9,8,7,6,5,4,3,2,1,0},{1,3,5,7,9,0,2,4,6,8},{0,1,2,3,4,5,6,7,8,9},{0,1,2,3,4,5,6,7,8,9},{9,8,7,6,5,4,3,2,1,0},{1,3,5,7,9,0,2,4,6,8}};	
+	int (*mxA)[N] = (int (*)[N]) mmap(NULL,SEG_SIZE,PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANON,-1,0);
+	int (*mxB)[N] = (int (*)[N]) mmap(NULL,SEG_SIZE,PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANON,-1,0);
+	int (*mxC)[N] = (int (*)[N]) mmap(NULL,SEG_SIZE,PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANON,-1,0);
+	int (*mxD)[N] = (int (*)[N]) mmap(NULL,SEG_SIZE,PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANON,-1,0);
+
+
+	if((mxA==MAP_FAILED)||(mxB==MAP_FAILED)||(mxC==MAP_FAILED)||(mxD==MAP_FAILED)){
 		printf("Error al mapear memoria\n");
 		exit(1);
 	}
 
-
+	//Llenamos las matrices con los datos que ya tenemos
 	for(i=0;i<N;i++){
 		for(j=0;j<N;j++){
-			ptr[i][j]=A[i][j];
+			mxA[i][j]=A[i][j];
+			mxB[i][j]=B[i][j];
 		}
 	}
 	
-
 	pidH = fork(); //Se crea el proceso hijo
 	
 	if(pidH == 0){ //Se trata del hijo
@@ -67,38 +79,41 @@ void main(){
 	//Procedemos a las operaciones
 	if(pidH == 0 && pidN == 0){ //Si se trata del nieto
 		//Ejecuta la suma de dos matrices
-		printf("Soy el nieto:\n");
-		for(i=0;i<N;i++){
-			for(j=0;j<N;j++){
-				printf("%i,",ptr[i][j]);
-				ptr[i][j]=5;
-			}
-			printf("\n");
-		}
+		printf("Soy el nieto: Ejecutando suma\n");
+		sumar(mxA,mxB,mxC);
 	}else if(pidH == 0 && pidN > 0){ //Se trata del hijo
 		//Ejecuta una multiplicacion de matrices
 		wait(NULL);
-		for(i=0;i<N;i++){
-			for(j=0;j<N;j++){
-				printf("%i,",ptr[i][j]);
-				ptr[i][j]=6;
-			}
-			printf("\n");
-		}
+		multiplicar(mxA,mxB,mxD);
 	}else{//Se trata del padre
 		//Ejecuta la inversa de las matrices regresadas por el hijo y nieto
 		wait(NULL);
 		printf("Soy el padre:\n");
 		for(i=0;i<N;i++){
 			for(j=0;j<N;j++){
-				printf("%i,",ptr[i][j]);
+				printf("%i,",mxC[i][j]);
 			}
 			printf("\n");
 		}
 	}
 
-	if(munmap(ptr,sizeof(A))){
-		printf("Error al unmmap\n");
+	if(munmap(mxA,SEG_SIZE)){
+		printf("Error al unmmap A\n");
+		exit(1);
+	}
+
+	if(munmap(mxB,SEG_SIZE)){
+		printf("Error al unmmap A\n");
+		exit(1);
+	}
+
+	if(munmap(mxC,SEG_SIZE)){
+		printf("Error al unmmap A\n");
+		exit(1);
+	}
+
+	if(munmap(mxD,SEG_SIZE)){
+		printf("Error al unmmap A\n");
 		exit(1);
 	}
 }

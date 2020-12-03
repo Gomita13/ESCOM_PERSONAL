@@ -1,7 +1,7 @@
 #include <windows.h>/* Servidor de la memoria compartida */ 
 #include <stdio.h> /* (ejecutar el servidor antes de ejecutar el cliente)*/ 
 #include <stdlib.h>
-#define TAM_MEM 512 /*Tamaño de la memoria compartida en bytes */ 
+#define TAM_MEM 25 /*Tamaño de la memoria compartida en bytes */ 
 int main(void) {    
 	HANDLE hArchMapeo = NULL;    
 	char *idMemCompartida = "MemoriaCompatida";    
@@ -25,9 +25,9 @@ int main(void) {
 	}
 	apTrabajo = apDatos;
 	for (c = 0; c < TAM_MEM; c++)
-		*apTrabajo++ = 69;
+		*apTrabajo++ = 70;
 	*apTrabajo = '\0';
-	while (*apDatos != '*')
+	while (*apTrabajo != '*')
 		sleep(1);
 	UnmapViewOfFile(apDatos);
 	CloseHandle(hArchMapeo);

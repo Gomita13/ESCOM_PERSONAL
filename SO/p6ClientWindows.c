@@ -1,7 +1,7 @@
 #include <windows.h>/* Cliente de la memoria compartida */ 
 #include <stdio.h> 
 #include <stdlib.h>
-#define TAM_MEM 400 /*Tamaño de la memoria compartida en bytes */
+#define TAM_MEM 25 /*Tamaño de la memoria compartida en bytes */
 int main(void) {   
 	HANDLE hArchMapeo = NULL;
 	char *idMemCompartida = "MemoriaCompatida";

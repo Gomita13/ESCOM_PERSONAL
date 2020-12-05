@@ -4,7 +4,7 @@
 #include <sys/ipc.h> /*(ejecutar el servidor antes de ejecutar el cliente)*/ 
 #include <sys/shm.h>
 #include <stdio.h>
-#define TAM_MEM 27 /*Tamaño de la memoria compartida en bytes */ 
+#define TAM_MEM 25 /*Tamaño de la memoria compartida en bytes */ 
 int main() {     
 	char c;
 	int shmid;

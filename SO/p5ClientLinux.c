@@ -3,7 +3,7 @@
 #include <sys/ipc.h> 
 #include <sys/shm.h> 
 #include <stdio.h> 
-#define TAM_MEM  27  /*Tamaño de la memoria compartida en bytes */ 
+#define TAM_MEM  25  /*Tamaño de la memoria compartida en bytes */ 
 int main() {     
 	int shmid;     
 	key_t llave;     

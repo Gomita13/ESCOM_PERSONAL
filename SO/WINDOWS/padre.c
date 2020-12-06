@@ -248,6 +248,22 @@ void main(){
 		}
 	}
 
+	printf("La matriz C = A + B es:\n");
+	for(i=0;i<5;i++){
+		for(j=0;j<5;j++){
+			printf("%i,",matB[i][j]);
+		}
+		printf("\n");
+	}	
+
+	printf("La matriz C = A * B es:\n");
+	for(i=0;i<5;i++){
+		for(j=0;j<5;j++){
+			printf("%i,",matA[i][j]);
+		}
+		printf("\n");
+	}
+
 	saveResults(matA,"suma.txt");
 	printf("Guardados los resultados de la suma\n");
 	saveResults(matB,"multiplicacion.txt");

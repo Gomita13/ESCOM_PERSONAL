@@ -30,7 +30,7 @@ void main(){
 	key_t keys[4] = {5510,5511,5512,5513}; //Los ultimos dos numeros son hex
 	int ids[4] = {-1,-1,-1,-1};
 	char i = 0, j = 0, k = 0;
-	int idChild = -1;
+	int idChild = -1, idCChild = -1;
 
 	//Obtengo la memoria de las tres matrices
 	for(i=0;i<4;i++){
@@ -72,16 +72,21 @@ void main(){
 	if(idChild == 0){ //Es el hijo
 		char *argv[1];
 		argv[0] = NULL;
-		execv("./hijoSuma",argv);
+		idCChild = fork();
+		if(idCChild > 0){
+			execv("./hijoSuma",argv);
+		}else if(idCChild == 0){
+			execv("./hijoMulti",argv);
+		}
 	}else{//Es el padre
 		wait(NULL);
 		printf("Mi chavo me envia esto:\n");
-		for(i=0;i<3;i++){
+		for(i=0;i<4;i++){
 			init((void*)mats[i],5,5);
 		}
 		for(i=0;i<5;i++){
 			for(j=0;j<5;j++){
-				printf("%i,",mats[2][i][j]);
+				printf("%i,",mats[3][i][j]);
 			}
 			printf("\n");
 		}

@@ -66,16 +66,14 @@ void main(){
  	apTB = apDB;
  	apTD = apDD;
 
- 	printf("Primeramente, esto es lo que obtengo de matriz D:\n");
+ 	
  	for(i=0;i<5;i++){
 		for(j=0;j<5;j++){
-			printf("%i,",apTD[j][i]);
 			apTD[j][i]=0;
 			for(k=0;k<5;k++){
 				apTD[j][i] += apTA[j][k]*apTB[k][i];
 			}
 		}
-		printf("\n");
 	}
 
  	UnmapViewOfFile(apDA);

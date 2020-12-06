@@ -47,6 +47,7 @@ void main(int argc, char *argv[]){
 		init((void*)mats[i],5,5);
 	}
 
+	printf("Soy el nieto, la matriz es:\n");
 	//Multiplicamos las matrices
 	for(i=0;i<N;i++){
 		for(j=0;j<N;j++){
@@ -54,7 +55,9 @@ void main(int argc, char *argv[]){
 			for(k=0;k<N;k++){
 				mats[2][j][i] += mats[0][j][k]*mats[1][k][i];
 			}
+			printf("%i,",mats[2][i][j]);
 		}
+		printf("\n");
 	}
 
 	//Desvinculamos la memoria compartida y salimos del programa

@@ -12,8 +12,14 @@
 #include <stdio.h> 
 #include <unistd.h>
 #include <wait.h>
-#define TAM_MEM  25 
-#define N 5
+//Si modificas NO_MAT, agrega o elimina IDs en el arreglo keys[] 
+#define NO_MAT 3
+//Modifica el tamaño de la matriz
+#define N 5 
+//Modifica el tipo de dato si deseas
+#define TAM_MEM  N*N*sizeof(char)
+/*En caso de modificar NO_MAT y N, modifica los arreglos que se
+  declaran en el main. Besos*/
 
 void getCofactor(int A[N][N], int temp[N][N], int p, int q, int n){ 
     char i = 0, j = 0;
@@ -101,11 +107,22 @@ char inverse(int A[N][N], float inverse[N][N]){
     return 1; 
 } 
 
+/*
+	FUNCION: saveResults
+	RECIBE: Una matriz de enteros (a) y un nombre para el 
+		archivo que almacenara sus datos (*name)
+	DESCRIPCION: Obtiene la matriz inversa de la matriz dada
+		(si es que aplica) y guarda la matriz en el archivo
+		especificado. Si no hay inversa guarda la indicacion
+		de que no existe.
+	OBSERVACIONES: El nombre es un archivo .txt para poder ser
+		visualizado.
+*/
 void saveResults(int a[N][N], char *name){
 	float mInv[N][N];
 	char i = 0, j = 0;
 	FILE *file;
-
+	
 	file = fopen(name,"w");
 
 	if(inverse(a,mInv)==0){
@@ -123,8 +140,18 @@ void saveResults(int a[N][N], char *name){
 	return;
 }
 
-
-void init(void **matrix, char rows, char cols){
+/*
+	FUNCION: init
+	RECIBE: Apuntador a la matriz (**matrix), numero de filas (rows)
+		,numero de columnas (cols).
+	DESCRIPCION: Prepara el segmento de memoria apuntado por **matrix,
+		para ser utilizado como una matriz rows*cols.
+	OBSERVACIONES: Debe ser llamada antes de cualquier manipulacion a la
+		matriz deseada. Se puede modificar el tipo de datos para rows
+		y cols, segun sea el tamaño de la matriz, actualmente el tamaño
+		maximo es 255*255
+*/
+void init(void **matrix,unsigned char rows,unsigned char cols){
 	char i = 0;
 	size_t noCols = cols * sizeof(char);
 	matrix[0] = matrix+noCols;
@@ -135,17 +162,16 @@ void init(void **matrix, char rows, char cols){
 }
 
 void main(){
-
-	char **mats[4] = {NULL,NULL,NULL,NULL}; //Arreglo de matrices
-	key_t keys[4] = {5510,5511,5512,5513}; //Los ultimos dos numeros son hex
-	int ids[4] = {-1,-1,-1,-1};
-	int A[5][5] = {{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0}};
-	int B[5][5] = {{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0}};
+	char **mats[NO_MAT] = {NULL,NULL,NULL}; //Arreglo de matrices
+	key_t keys[NO_MAT] = {5510,5511,5512}; //Los ultimos dos numeros son hex
+	int ids[NO_MAT] = {-1,-1,-1};
+	int A[N][N] = {{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0}};
+	int B[N][N] = {{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0}};
 	char i = 0, j = 0, k = 0;
-	int idChild = -1, idCChild = -1;
+	int idChild = -1, idCChild = -1;//Hijo y Nieto respectivamente
 
-	//Obtengo la memoria de las tres matrices
-	for(i=0;i<4;i++){
+	//Obtengo la memoria de las matrices
+	for(i=0;i<NO_MAT;i++){
 		ids[i] = shmget(keys[i],TAM_MEM,IPC_CREAT|0666);
 		if(ids[i] == -1){
 			perror("An error ocurred during shmget():\n");
@@ -159,24 +185,24 @@ void main(){
 		}
 	}
 
-	//Vamos a inicializar las matrices
-	for(i=0;i<4;i++){
-		init((void *)mats[i],5,5);
+	//Preparando las matrices para manipulacion
+	for(i=0;i<NO_MAT;i++){
+		init((void *)mats[i],N,N);
 	}
 	
-	for(i=0;i<5;i++){
-		for(j=0;j<5;j++){
-			mats[0][i][j] = 1;
-			mats[1][i][j] = 1;
-			mats[2][i][j] = 1;
-			mats[3][i][j] = 1;		
+	//Cargando valores a las matrices
+	for(i=0;i<N;i++){
+		for(j=0;j<N;j++){
+			mats[0][i][j] = A[i][j];
+			mats[1][i][j] = B[i][j];
+			mats[2][i][j] = 0;		
 		}
 	}
 
 	//Creamos un hijo que realiza la suma de las matrices A y B
 	idChild = fork();
 	if(idChild < 0){
-		perror("Error ocurred during child creation:\n");
+		perror("Father: Error ocurred during child creation:\n");
 		exit(1);
 	}
 
@@ -184,29 +210,35 @@ void main(){
 	if(idChild == 0){ //Es el hijo
 		char *argv[1];
 		argv[0] = NULL;
+		//Creamos un nievo que realice la multiplicacion de las matrices
 		idCChild = fork();
-		if(idCChild > 0){
+		if(idCChild > 0){ //Es el hijo
+			wait(NULL); //Esperamos al nieto
 			execv("./hijoSuma",argv);
-		}else if(idCChild == 0){
+		}else if(idCChild == 0){ //Es el nieto
 			execv("./hijoMulti",argv);
+		}else{//Fallo la creacion del nieto
+			perror("Child: Error ocurred during child creation:\n");
+			exit(1);		
 		}
 	}else{//Es el padre
 		wait(NULL);
 		
-		for(i=0;i<4;i++){
-			init((void*)mats[i],5,5);
+		//Preparamos las matrices para manipulacion
+		for(i=0;i<NO_MAT;i++){
+			init((void*)mats[i],N,N);
 		}
 
 		for(i=0;i<5;i++){
 			for(j=0;j<5;j++){
-				//Guardamos los resultados de C y D en las matrices tipo int A y B
-				A[i][j] = mats[2][i][j];
-				B[i][j] = mats[3][i][j];
+				//Guardamos los resultados de A y C en las matrices tipo int A y B
+				A[i][j] = mats[0][i][j];
+				B[i][j] = mats[2][i][j];
 			}
 		}
 
 		//Desvinculamos la memoria compartida y salimos del programa
-		for(i=0;i<4;i++){
+		for(i=0;i<NO_MAT;i++){
 			shmdt(mats[i]);
 		}
 

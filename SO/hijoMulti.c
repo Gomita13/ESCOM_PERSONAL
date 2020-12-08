@@ -8,11 +8,26 @@
 #include <sys/types.h>      /* Cliente de la memoria compartida */ 
 #include <sys/ipc.h> 
 #include <sys/shm.h> 
-#include <stdio.h> 
-#define TAM_MEM  25 
-#define N 5
+#include <stdio.h>
+//Si modificas NO_MAT, agrega o elimina IDs en el arreglo keys[] 
+#define NO_MAT 3
+//Modifica el tamaño de la matriz
+#define N 5 
+//Modifica el tipo de dato si deseas
+#define TAM_MEM  N*N*sizeof(char)
 
-void init(void **matrix, char rows, char cols){
+/*
+	FUNCION: init
+	RECIBE: Apuntador a la matriz (**matrix), numero de filas (rows)
+		,numero de columnas (cols).
+	DESCRIPCION: Prepara el segmento de memoria apuntado por **matrix,
+		para ser utilizado como una matriz rows*cols.
+	OBSERVACIONES: Debe ser llamada antes de cualquier manipulacion a la
+		matriz deseada. Se puede modificar el tipo de datos para rows
+		y cols, segun sea el tamaño de la matriz, actualmente el tamaño
+		maximo es 255*255
+*/
+void init(void **matrix, unsigned char rows, unsigned char cols){
 	char i = 0;
 	size_t noCols = cols * sizeof(char);
 	matrix[0] = matrix+noCols;
@@ -23,13 +38,14 @@ void init(void **matrix, char rows, char cols){
 }
 
 void main(int argc, char *argv[]){
-	char **mats[3]; //Arreglo de matrices
-	key_t keys[3] = {5510,5511,5513}; //Los ultimos dos numeros son hex
-	int ids[3];
+	char **mats[NO_MAT]; //Arreglo de matrices
+	/*A continuacion las matrices A(10),B(11),C(12)*/
+	key_t keys[NO_MAT] = {5510,5511,5512}; 
+	int ids[NO_MAT];
 	char i = 0, j = 0, k = 0;
 
 	//Obtengo la memoria de las tres matrices
-	for(i=0;i<3;i++){
+	for(i=0;i<NO_MAT;i++){
 		ids[i] = shmget(keys[i],TAM_MEM,0666);
 		if(ids[i] == -1){
 			perror("An error ocurred during shmget():\n");
@@ -43,12 +59,15 @@ void main(int argc, char *argv[]){
 		}
 	}
 
-	for(i=0;i<3;i++){
+	/*Preparo los segmentos para la manipulacion*/
+	for(i=0;i<NO_MAT;i++){
 		init((void*)mats[i],5,5);
 	}
 
+	/*Como el nieto se ejecuta primero, se encargara de realizar
+	  la multiplicacion de matrices*/
 	printf("Soy el nieto, la matriz es:\n");
-	//Multiplicamos las matrices
+	//C = A*B
 	for(i=0;i<N;i++){
 		for(j=0;j<N;j++){
 			mats[2][j][i]=0;
@@ -61,7 +80,7 @@ void main(int argc, char *argv[]){
 	}
 
 	//Desvinculamos la memoria compartida y salimos del programa
-	for(i=0;i<3;i++){
+	for(i=0;i<NO_MAT;i++){
 		shmdt(mats[i]);
 	}
 	exit(0);

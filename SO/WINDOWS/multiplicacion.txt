@@ -1,1 +1,0 @@
-La matriz es singular o identidad

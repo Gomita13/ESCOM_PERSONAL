@@ -1,8 +1,19 @@
+/*
+	FECHA: 09-12-2020
+	AUTORA: S GAMALIEL
+	DESCRIPCION: Este programa crea cuatro espacios de memoria
+		compartida donde se almacenan 4 matrices. Crea una hijo
+		que se encarga de sumar las matrices 1 y 2.
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
-#define TAM_MEM 25
-#define N 5
+//Si modificas NO_MAT, agrega o elimina IDs en el arreglo keys[] 
+#define NO_MAT 3
+//Modifica el tamaño de la matriz
+#define N 5 
+//Modifica el tipo de dato si deseas
+#define TAM_MEM  N*N*sizeof(char)
 
 void getCofactor(int A[N][N], int temp[N][N], int p, int q, int n){ 
     char i = 0, j = 0;
@@ -90,6 +101,17 @@ char inverse(int A[N][N], float inverse[N][N]){
     return 1; 
 } 
 
+/*
+	FUNCION: saveResults
+	RECIBE: Una matriz de enteros (a) y un nombre para el 
+		archivo que almacenara sus datos (*name)
+	DESCRIPCION: Obtiene la matriz inversa de la matriz dada
+		(si es que aplica) y guarda la matriz en el archivo
+		especificado. Si no hay inversa guarda la indicacion
+		de que no existe.
+	OBSERVACIONES: El nombre es un archivo .txt para poder ser
+		visualizado.
+*/
 void saveResults(unsigned char a[N][N], char *name){
 	int m[N][N];
 	float mInv[N][N];
@@ -117,110 +139,61 @@ void saveResults(unsigned char a[N][N], char *name){
 }
 
 void main(){
+	//Estructuras para la creacion de procesos hijos
 	STARTUPINFO si;
 	PROCESS_INFORMATION pi;
-	HANDLE hArchA = NULL, hArchB = NULL, hArchC = NULL, hArchD = NULL;
-	char *idA = "MatrizA";
-	char *idB = "MatrizB";
-	char *idC = "MatrizC";
-	char *idD = "MatrizD";
-	unsigned char matA[5][5] = {{1,2,3,4,5},{6,7,8,9,0},{5,4,3,2,1},{8,7,6,5,4},{4,7,8,9,1}};
-	unsigned char matB[5][5] = {{1,2,3,4,5},{6,7,8,9,0},{5,4,3,2,1},{8,7,6,5,4},{4,7,8,9,1}};
+	HANDLE hArch[NO_MAT] = {NULL,NULL,NULL}; //Arreglo de handlers para las matrices
+	char *ids[NO_MAT] = {"MatrizA","MatrizB","MatrizC"};
+	//Direccion al programa que ejecutara el proceso hijo
 	char path[] = "C:/Users//gamma//Documents//Programas//ESCOM_PERSONAL//SO//WINDOWS//hijoSuma.exe";
-	unsigned char (*apDA)[5], (*apTA)[5], (*apDB)[5], (*apTB)[5], (*apDC)[5], (*apTC)[5], (*apDD)[5], (*apTD)[5], i = 0, j = 0;
-
-	//Obten la memoria compartida
-	if((hArchA=CreateFileMapping(INVALID_HANDLE_VALUE,// usa memoria compartida
-	                  NULL,// seguridad por default
-	                  PAGE_READWRITE,// acceso lectura/escritura a la memoria  
-	                  0,// tamaño maxixmo parte alta de un DWORD
-	                  TAM_MEM,// tamaño maxixmo parte baja de un DWORD
-	                  idA)// identificador de la memoria compartida
-	                  ) == NULL){
-		printf("No se mapeo la memoria compartida para la matriz A: (%i)\n", GetLastError());
-		exit(-1);
-	}
-
-
-	if((hArchB=CreateFileMapping(INVALID_HANDLE_VALUE,// usa memoria compartida
-	                  NULL,// seguridad por default
-	                  PAGE_READWRITE,// acceso lectura/escritura a la memoria  
-	                  0,// tamaño maxixmo parte alta de un DWORD
-	                  TAM_MEM,// tamaño maxixmo parte baja de un DWORD
-	                  idB)// identificador de la memoria compartida
-	                  ) == NULL){
-		printf("No se mapeo la memoria compartida para la matriz B: (%i)\n", GetLastError());
-		exit(-1);
-	}
-
-	if((hArchC=CreateFileMapping(INVALID_HANDLE_VALUE,// usa memoria compartida
-	                  NULL,// seguridad por default
-	                  PAGE_READWRITE,// acceso lectura/escritura a la memoria  
-	                  0,// tamaño maxixmo parte alta de un DWORD
-	                  TAM_MEM,// tamaño maxixmo parte baja de un DWORD
-	                  idC)// identificador de la memoria compartida
-	                  ) == NULL){
-		printf("No se mapeo la memoria compartida para la matriz C: (%i)\n", GetLastError());
-		exit(-1);
-	}	
-
-	if((hArchD=CreateFileMapping(INVALID_HANDLE_VALUE,// usa memoria compartida
-	                  NULL,// seguridad por default
-	                  PAGE_READWRITE,// acceso lectura/escritura a la memoria  
-	                  0,// tamaño maxixmo parte alta de un DWORD
-	                  TAM_MEM,// tamaño maxixmo parte baja de un DWORD
-	                  idD)// identificador de la memoria compartida
-	                  ) == NULL){
-		printf("No se mapeo la memoria compartida para la matriz C: (%i)\n", GetLastError());
-		exit(-1);
-	}	
-
-	if((apDA=(unsigned char(*)[5])MapViewOfFile(hArchA, // Manejador del mapeo 
-	                         FILE_MAP_ALL_ACCESS, // Permiso de lectura/escritura en la memoria
-	                         0,0,TAM_MEM)) == NULL){
- 		printf("No se accedio a la memoria compartida de la matriz A: (%i)\n", GetLastError());// 
- 		CloseHandle(hArchA);
- 		exit(-1);
- 	}
-
- 	if((apDB=(unsigned char(*)[5])MapViewOfFile(hArchB, // Manejador del mapeo 
-	                         FILE_MAP_ALL_ACCESS, // Permiso de lectura/escritura en la memoria
-	                         0,0,TAM_MEM)) == NULL){
- 		printf("No se accedio a la memoria compartida de la matriz B: (%i)\n", GetLastError());// 
- 		CloseHandle(hArchB);
- 		exit(-1);
- 	}
-
- 	if((apDC=(unsigned char(*)[5])MapViewOfFile(hArchC, // Manejador del mapeo 
-	                         FILE_MAP_ALL_ACCESS, // Permiso de lectura/escritura en la memoria
-	                         0,0,TAM_MEM)) == NULL){
- 		printf("No se accedio a la memoria compartida de la matriz C: (%i)\n", GetLastError());// 
- 		CloseHandle(hArchC);
- 		exit(-1);
- 	}
-
- 	if((apDD=(unsigned char(*)[5])MapViewOfFile(hArchD, // Manejador del mapeo 
-	                         FILE_MAP_ALL_ACCESS, // Permiso de lectura/escritura en la memoria
-	                         0,0,TAM_MEM)) == NULL){
- 		printf("No se accedio a la memoria compartida de la matriz D: (%i)\n", GetLastError());// 
- 		CloseHandle(hArchD);
- 		exit(-1);
- 	}
-
- 	apTA = apDA;
- 	apTB = apDB;
- 	apTC = apDC;
-	apTD = apDD;
-
-	for(i=0;i<5;i++){
-		for(j=0;j<5;j++){
-			apTA[i][j]=matA[i][j];
-			apTB[i][j]=matB[i][j];
-			apTC[i][j]=0;
-			apTD[i][j]=8;
+	char i = 0, j = 0; 
+	unsigned char matA[N][N] = {{1,2,3,4,5},{6,7,8,9,0},{5,4,3,2,1},{8,7,6,5,4},{4,7,8,9,1}};
+	unsigned char matB[N][N] = {{1,2,3,4,5},{6,7,8,9,0},{5,4,3,2,1},{8,7,6,5,4},{4,7,8,9,1}};
+	unsigned char (*apDA)[N], (*apDB)[N], (*apDC)[N];
+	unsigned char (*apTA)[N], (*apTB)[N], (*apTC)[N];
+	//Obtenemos la memoria para las matrices
+	for(i=0;i<NO_MAT;i++){
+		//Obtenemos la memoria compartida
+		if((hArch[i]=OpenFileMapping(FILE_MAP_ALL_ACCESS,FALSE,ids[i])) == NULL){
+			printf("No se abrio archivo de mapeo de la memoria compartida para la matriz %i: (ERROR %i)\n", i, GetLastError());
+			exit(-1);
 		}
 	}
 
+
+	if((apDA=(unsigned char(*)[N])MapViewOfFile(hArch[0],FILE_MAP_ALL_ACCESS,0,0,TAM_MEM)) == NULL){
+ 		printf("No se accedio a la memoria compartida de la matriz A: (%i)\n", GetLastError());// 
+ 		CloseHandle(hArch[0]);
+ 		exit(-1);
+ 	}
+
+ 	if((apDB=(unsigned char(*)[N])MapViewOfFile(hArch[1],FILE_MAP_ALL_ACCESS,0,0,TAM_MEM)) == NULL){
+ 		printf("No se accedio a la memoria compartida de la matriz A: (%i)\n", GetLastError());// 
+ 		CloseHandle(hArch[1]);
+ 		exit(-1);
+ 	}
+
+ 	if((apDC=(unsigned char(*)[N])MapViewOfFile(hArch[2],FILE_MAP_ALL_ACCESS,0,0,TAM_MEM)) == NULL){
+ 		printf("No se accedio a la memoria compartida de la matriz A: (%i)\n", GetLastError());// 
+ 		CloseHandle(hArch[2]);
+ 		exit(-1);
+ 	}
+
+ 	//Apuntadores para poder manipular las matrices
+ 	apTA = apDA;
+ 	apTB = apDB;
+ 	apTC = apDC;
+
+ 	//Inicializamos las matrices
+	for(i=0;i<N;i++){
+		for(j=0;j<N;j++){
+			apTA[i][j]=matA[i][j];
+			apTB[i][j]=matB[i][j];
+			apTC[i][j]=0;
+		}
+	}
+
+	//Creamos el proceso hijo
 	ZeroMemory(&si,sizeof(si));
 	si.cb = sizeof(si);
 
@@ -230,9 +203,9 @@ void main(){
 		UnmapViewOfFile(apDA);
 	 	UnmapViewOfFile(apDB);
 	 	UnmapViewOfFile(apDC);   
-	 	CloseHandle(hArchA);   
-	 	CloseHandle(hArchB);   
-	 	CloseHandle(hArchC);   	
+	 	CloseHandle(hArch[0]);   
+	 	CloseHandle(hArch[1]);   
+	 	CloseHandle(hArch[2]);   	
 	 	exit(1);
 	}
 
@@ -241,10 +214,11 @@ void main(){
  	
 	printf("Hijos terminados\n");
 
+	//Vaciamos las matrices resultantes en matA y matB
 	for(i=0;i<5;i++){
 		for(j=0;j<5;j++){
-			matA[i][j] = apTC[i][j];
-			matB[i][j] = apTD[i][j];
+			matA[i][j] = apTA[i][j];
+			matB[i][j] = apTC[i][j];
 		}
 	}
 
@@ -274,8 +248,8 @@ void main(){
  	UnmapViewOfFile(apDA);
  	UnmapViewOfFile(apDB);
  	UnmapViewOfFile(apDC);   
- 	CloseHandle(hArchA);   
- 	CloseHandle(hArchB);   
- 	CloseHandle(hArchC);   
+ 	CloseHandle(hArch[0]);   
+ 	CloseHandle(hArch[1]);   
+ 	CloseHandle(hArch[2]);   
  	exit(0); 
 }

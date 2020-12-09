@@ -142,11 +142,11 @@ void main(){
 	//Estructuras para la creacion de procesos hijos
 	STARTUPINFO si;
 	PROCESS_INFORMATION pi;
-	HANDLE hArch[NO_MAT] = {NULL,NULL,NULL}; //Arreglo de handlers para las matrices
-	char *ids[NO_MAT] = {"MatrizA","MatrizB","MatrizC"};
+	HANDLE hArch[NO_MAT+1] = {NULL,NULL,NULL,NULL}; //Arreglo de handlers para las matrices
+	char *ids[NO_MAT+1] = {"MatrizA","MatrizB","MatrizC","Semaforo"};
 	//Direccion al programa que ejecutara el proceso hijo
 	char path[] = "C:/Users//gamma//Documents//Programas//ESCOM_PERSONAL//SO//WINDOWS//hijoSuma.exe";
-	char i = 0, j = 0; 
+	char i = 0, j = 0, *apDS, *apTS; 
 	unsigned char matA[N][N] = {{1,2,3,4,5},{6,7,8,9,0},{5,4,3,2,1},{8,7,6,5,4},{4,7,8,9,1}};
 	unsigned char matB[N][N] = {{1,2,3,4,5},{6,7,8,9,0},{5,4,3,2,1},{8,7,6,5,4},{4,7,8,9,1}};
 	unsigned char (*apDA)[N], (*apDB)[N], (*apDC)[N];
@@ -160,6 +160,11 @@ void main(){
 		}
 	}
 
+	//Obtenemos la memoria compartida para el semaforo
+	if((hArch[NO_MAT-1] = OpenFileMapping(FILE_MAP_ALL_ACCESS,FALSE,ids[NO_MAT-1])) == NULL){
+		printf("No se abrio el archivo de mapero de la memoria compartida para el semaforo: (ERROR %i)\n",GetLastError());
+		exit(-1);
+	}	
 
 	if((apDA=(unsigned char(*)[N])MapViewOfFile(hArch[0],FILE_MAP_ALL_ACCESS,0,0,TAM_MEM)) == NULL){
  		printf("No se accedio a la memoria compartida de la matriz A: (%i)\n", GetLastError());// 
@@ -179,10 +184,17 @@ void main(){
  		exit(-1);
  	}
 
+ 	if((apTS = (char *) MapViewOfFile(hArch[NO_MAT-1],FILE_MAP_ALL_ACCESS,0,0,sizeof(char))) == NULL){
+ 		printf("No se accedio a la memoria compartida del semaforo: (ERROR %i) \n", GetLastError());// 
+ 		CloseHandle(hArch[NO_MAT-1]);
+ 		exit(-1);	
+ 	}
+
  	//Apuntadores para poder manipular las matrices
  	apTA = apDA;
  	apTB = apDB;
  	apTC = apDC;
+ 	apTS = apDS;
 
  	//Inicializamos las matrices
 	for(i=0;i<N;i++){
@@ -192,6 +204,9 @@ void main(){
 			apTC[i][j]=0;
 		}
 	}
+
+	//Establecemos el valor del semaforo
+	*apTS = 'n'; //Esperando al nieto
 
 	//Creamos el proceso hijo
 	ZeroMemory(&si,sizeof(si));
@@ -209,8 +224,10 @@ void main(){
 	 	exit(1);
 	}
 
-	//Si lo pudo crear
-	WaitForSingleObject(pi.hProcess,INFINITE);
+	//Si lo pudo crear, esperamos
+	while(*apTS!='p'){
+		sleep(1);
+	}
  	
 	printf("Hijos terminados\n");
 
@@ -247,9 +264,11 @@ void main(){
 	CloseHandle(pi.hThread);
  	UnmapViewOfFile(apDA);
  	UnmapViewOfFile(apDB);
- 	UnmapViewOfFile(apDC);   
+ 	UnmapViewOfFile(apDC);
+ 	UnmapViewOfFile(apDS);   
  	CloseHandle(hArch[0]);   
  	CloseHandle(hArch[1]);   
- 	CloseHandle(hArch[2]);   
+ 	CloseHandle(hArch[2]);
+ 	CloseHandle(hArch[3]);   
  	exit(0); 
 }

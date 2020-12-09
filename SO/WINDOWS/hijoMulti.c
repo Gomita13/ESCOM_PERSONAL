@@ -15,11 +15,11 @@
 #define TAM_MEM  N*N*sizeof(char)
 
 void main(){
-	HANDLE hArch[NO_MAT] = {NULL,NULL,NULL}; //Arreglo de handlers para las matrices
-	char *ids[NO_MAT] = {"MatrizA","MatrizB","MatrizC"};
+	HANDLE hArch[NO_MAT+1] = {NULL,NULL,NULL,NULL}; //Arreglo de handlers para las matrices
+	char *ids[NO_MAT+1] = {"MatrizA","MatrizB","MatrizC","Semaforo"};
 	unsigned char (*apDA)[N], (*apDB)[N], (*apDC)[N]; //Apuntadores para datos
 	unsigned char (*apTA)[N], (*apTB)[N], (*apTC)[N]; //Apuntadores para manipulacion
-	char i = 0, j = 0, k = 0; 
+	char i = 0, j = 0, k = 0, *apTS, *apDS;
 
 	//Obtenemos la memoria para las matrices
 	for(i=0;i<NO_MAT;i++){
@@ -29,6 +29,12 @@ void main(){
 			exit(-1);
 		}
 	}
+
+	//Obtenemos memoria para el semaforo
+	if((hArch[NO_MAT-1] = OpenFileMapping(FILE_MAP_ALL_ACCESS,FALSE,ids[NO_MAT-1])) == NULL){
+		printf("No se abrio el archivo de mapero de la memoria compartida para el semaforo: (ERROR %i)\n",GetLastError());
+		exit(-1);
+	}	
 
 	if((apDA=(unsigned char(*)[N])MapViewOfFile(hArch[0],FILE_MAP_ALL_ACCESS,0,0,TAM_MEM)) == NULL){
  		printf("No se accedio a la memoria compartida de la matriz A: (%i)\n", GetLastError());// 
@@ -48,9 +54,16 @@ void main(){
  		exit(-1);
  	}
 
+ 	if((apDB=(unsigned char(*)[N])MapViewOfFile(hArch[1],FILE_MAP_ALL_ACCESS,0,0,TAM_MEM)) == NULL){
+ 		printf("No se accedio a la memoria compartida de la matriz A: (ERROR %i)\n", GetLastError());// 
+ 		CloseHandle(hArch[1]);
+ 		exit(-1);
+	}
+
  	apTA = apDA;
  	apTB = apDB;
  	apTC = apDC;
+ 	apTS = apDS;
 
  	for(i=0;i<N;i++){
 		for(j=0;j<N;j++){
@@ -61,11 +74,16 @@ void main(){
 		}
 	}
 
+	//Terminamos, cambiamos el semaforo para el hijo
+	*apTS = 'h';
+
  	UnmapViewOfFile(apDA);
  	UnmapViewOfFile(apDB);
- 	UnmapViewOfFile(apDC);   
+ 	UnmapViewOfFile(apDC); 
+ 	UnmapViewOfFile(apDS);  
  	CloseHandle(hArch[0]);   
  	CloseHandle(hArch[1]);   
- 	CloseHandle(hArch[2]);   
+ 	CloseHandle(hArch[2]);
+ 	CloseHandle(hArch[3]);   
  	exit(0); 
 }

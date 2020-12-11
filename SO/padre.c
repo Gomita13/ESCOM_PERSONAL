@@ -187,19 +187,19 @@ void main(){
 	}
 
 	//Obtengo memoria para el semaforo
-	ids[NO_MAT] = shmget(keys[NO_MAT],TAM_MEM,IPC_CREAT|0666);
+	ids[NO_MAT] = shmget(keys[NO_MAT],sizeof(char),IPC_CREAT|0666);
 	if(ids[NO_MAT] == -1){
 		perror("Sem: An error ocurred during shmget():\n");
 		exit(1);
 	}
 	//Obtengo acceso a la memoria, soy admin
-	mats[NO_MAT] = shmat(ids[NO_MAT],NULL,0);
-	if(mats[NO_MAT] == (char *) -1){
+	apDS = shmat(ids[NO_MAT],NULL,0);
+	if(apDS == (char *) -1){
 		perror("Sem: An error ocurred during shmat():\n");
 		exit(1);
 	}
 
-	*apTS='n';
+	*apDS='n';
 
 	//Preparando las matrices para manipulacion
 	for(i=0;i<NO_MAT;i++){
@@ -240,7 +240,8 @@ void main(){
 	}else{//Es el padre
 
 		//Esperamos a que los hijos acaben
-		while(*apTS!='p'){
+		while(*apDS!='p'){
+			printf("%c\n",*apTS);
 			sleep(1);
 		}
 		

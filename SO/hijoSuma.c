@@ -9,6 +9,7 @@
 #include <sys/ipc.h> 
 #include <sys/shm.h> 
 #include <stdio.h> 
+#include <unistd.h>
 //Si modificas NO_MAT, agrega o elimina IDs en el arreglo keys[] 
 #define NO_MAT 2
 //Modifica el tamaño de la matriz
@@ -39,7 +40,7 @@ void init(void **matrix, unsigned char rows, unsigned char cols){
 
 void main(int argc, char *argv[]){
 	char **mats[NO_MAT]; //Arreglo de matrices
-	char *apDS, *apTS;
+	char *apDS;
 	key_t keys[NO_MAT+1] = {5510,5511,5599}; //A(10), B(11) y semaforo (99)
 	int ids[NO_MAT+1];
 	char i = 0, j = 0;
@@ -72,19 +73,12 @@ void main(int argc, char *argv[]){
 		exit(1);
 	}
 
-	apTS = apDS;
-
-	//Espero a que termine el nieto
-	while(*apTS != 'h'){
-		sleep(1);
-	}
-
 	for(i=0;i<NO_MAT;i++){
 		init((void*)mats[i],5,5);
 	}
 
 	//A = A+B
-	printf("Soy el hijo, la suma es %i:\n");
+	printf("Soy el hijo, la suma es:\n");
 	for(i=0;i<N;i++){
 		for(j=0;j<N;j++){
 			mats[0][i][j] = mats[0][i][j] + mats[1][i][j];	
@@ -94,11 +88,12 @@ void main(int argc, char *argv[]){
 	}
 
 	//Le paso el control al padre
-	*apTS = 'p';
+	*apDS = 'p';
 
 	//Desvinculamos la memoria compartida y salimos del programa
 	for(i=0;i<NO_MAT;i++){
 		shmdt(mats[i]);
 	}
+	shmdt(apDS);
 	exit(0);
 }

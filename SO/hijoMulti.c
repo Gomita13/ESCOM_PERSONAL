@@ -9,6 +9,7 @@
 #include <sys/ipc.h> 
 #include <sys/shm.h> 
 #include <stdio.h>
+
 //Si modificas NO_MAT, agrega o elimina IDs en el arreglo keys[] 
 #define NO_MAT 3
 //Modifica el tamaño de la matriz
@@ -39,7 +40,7 @@ void init(void **matrix, unsigned char rows, unsigned char cols){
 
 void main(int argc, char *argv[]){
 	char **mats[NO_MAT]; //Arreglo de matrices
-	char *apDS, *apTS;
+	char *apDS;
 	/*A continuacion las matrices A(10),B(11),C(12) y la key para el semaforo (99)*/
 	key_t keys[NO_MAT+1] = {5510,5511,5512,5599}; 
 	int ids[NO_MAT+1];
@@ -71,9 +72,7 @@ void main(int argc, char *argv[]){
 	if(apDS == (char *) -1){
 		perror("An error ocurred during shmat():\n");
 		exit(1);
-	}
-
-	apTS = apDS;
+	}	
 
 	/*Preparo los segmentos para la manipulacion*/
 	for(i=0;i<NO_MAT;i++){
@@ -96,7 +95,7 @@ void main(int argc, char *argv[]){
 	}
 
 	//Le paso el control al hijo
-	*apTS = 'h'; 
+	*apDS = 'h'; 
 
 	//Desvinculamos la memoria compartida y salimos del programa
 	for(i=0;i<NO_MAT;i++){

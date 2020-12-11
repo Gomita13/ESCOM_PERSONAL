@@ -151,20 +151,21 @@ void main(){
 	unsigned char matB[N][N] = {{1,2,3,4,5},{6,7,8,9,0},{5,4,3,2,1},{8,7,6,5,4},{4,7,8,9,1}};
 	unsigned char (*apDA)[N], (*apDB)[N], (*apDC)[N];
 	unsigned char (*apTA)[N], (*apTB)[N], (*apTC)[N];
-	//Obtenemos la memoria para las matrices
+	
+	//Creamos la memoria para las matrices
 	for(i=0;i<NO_MAT;i++){
-		//Obtenemos la memoria compartida
-		if((hArch[i]=OpenFileMapping(FILE_MAP_ALL_ACCESS,FALSE,ids[i])) == NULL){
-			printf("No se abrio archivo de mapeo de la memoria compartida para la matriz %i: (ERROR %i)\n", i, GetLastError());
+		if ((hArch[i] = CreateFileMapping(INVALID_HANDLE_VALUE,NULL,PAGE_READWRITE,0,TAM_MEM,ids[i])) == NULL){
+			printf("No se pudo crear el archivo de maapeo de la memoria para la matriz %i: (ERROR %i)\n",GetLastError());
 			exit(-1);
 		}
 	}
 
-	//Obtenemos la memoria compartida para el semaforo
-	if((hArch[NO_MAT-1] = OpenFileMapping(FILE_MAP_ALL_ACCESS,FALSE,ids[NO_MAT-1])) == NULL){
-		printf("No se abrio el archivo de mapero de la memoria compartida para el semaforo: (ERROR %i)\n",GetLastError());
+	//Creamos la memoria compartida para el semaforo
+	if ((hArch[NO_MAT] = CreateFileMapping(INVALID_HANDLE_VALUE,NULL,PAGE_READWRITE,0,sizeof(char),ids[NO_MAT])) == NULL){
+		printf("No se pudo crear el archivo de maapeo de la memoria para el semaforo: (ERROR %i)\n",GetLastError());
 		exit(-1);
-	}	
+	}
+	
 
 	if((apDA=(unsigned char(*)[N])MapViewOfFile(hArch[0],FILE_MAP_ALL_ACCESS,0,0,TAM_MEM)) == NULL){
  		printf("No se accedio a la memoria compartida de la matriz A: (%i)\n", GetLastError());// 
@@ -184,9 +185,9 @@ void main(){
  		exit(-1);
  	}
 
- 	if((apTS = (char *) MapViewOfFile(hArch[NO_MAT-1],FILE_MAP_ALL_ACCESS,0,0,sizeof(char))) == NULL){
+ 	if((apDS = (char *) MapViewOfFile(hArch[NO_MAT],FILE_MAP_ALL_ACCESS,0,0,sizeof(char))) == NULL){
  		printf("No se accedio a la memoria compartida del semaforo: (ERROR %i) \n", GetLastError());// 
- 		CloseHandle(hArch[NO_MAT-1]);
+ 		CloseHandle(hArch[NO_MAT]);
  		exit(-1);	
  	}
 

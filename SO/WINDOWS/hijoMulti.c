@@ -31,7 +31,7 @@ void main(){
 	}
 
 	//Obtenemos memoria para el semaforo
-	if((hArch[NO_MAT-1] = OpenFileMapping(FILE_MAP_ALL_ACCESS,FALSE,ids[NO_MAT-1])) == NULL){
+	if((hArch[NO_MAT] = OpenFileMapping(FILE_MAP_ALL_ACCESS,FALSE,ids[NO_MAT])) == NULL){
 		printf("No se abrio el archivo de mapero de la memoria compartida para el semaforo: (ERROR %i)\n",GetLastError());
 		exit(-1);
 	}	
@@ -54,11 +54,11 @@ void main(){
  		exit(-1);
  	}
 
- 	if((apDB=(unsigned char(*)[N])MapViewOfFile(hArch[1],FILE_MAP_ALL_ACCESS,0,0,TAM_MEM)) == NULL){
- 		printf("No se accedio a la memoria compartida de la matriz A: (ERROR %i)\n", GetLastError());// 
- 		CloseHandle(hArch[1]);
- 		exit(-1);
-	}
+ 	if((apDS = (char *) MapViewOfFile(hArch[NO_MAT],FILE_MAP_ALL_ACCESS,0,0,sizeof(char))) == NULL){
+ 		printf("No se accedio a la memoria compartida del semaforo: (ERROR %i) \n", GetLastError());// 
+ 		CloseHandle(hArch[NO_MAT]);
+ 		exit(-1);	
+ 	}
 
  	apTA = apDA;
  	apTB = apDB;

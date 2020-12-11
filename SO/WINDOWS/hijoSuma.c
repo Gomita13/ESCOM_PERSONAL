@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <windows.h>
 //Si modificas NO_MAT, agrega o elimina IDs en el arreglo keys[] 
-#define NO_MAT 3
+#define NO_MAT 2
 //Modifica el tamaño de la matriz
 #define N 5 
 //Modifica el tipo de dato si deseas
@@ -18,8 +18,8 @@ void main(){
 	//Estructuras para la creacion de procesos hijos
 	STARTUPINFO si;
 	PROCESS_INFORMATION pi;
-	HANDLE hArch[NO_MAT] = {NULL,NULL,NULL}; //Arreglo de handlers para las matrices y semaforo
-	char *ids[NO_MAT] = {"MatrizA","MatrizB","Semaforo"};
+	HANDLE hArch[NO_MAT+1] = {NULL,NULL,NULL}; //Arreglo de handlers para las matrices y semaforo
+	char *ids[NO_MAT+1] = {"MatrizA","MatrizB","Semaforo"};
 	//Direccion al programa que ejecutara el proceso hijo
 	char path[] = "C:/Users//gamma//Documents//Programas//ESCOM_PERSONAL//SO//WINDOWS//hijoMulti.exe";
 	unsigned char (*apDA)[N], (*apDB)[N]; //Apuntadores para datos
@@ -37,7 +37,7 @@ void main(){
 	}
 
 	//Obtenemos memoria para el semaforo
-	if((hArch[NO_MAT-1] = OpenFileMapping(FILE_MAP_ALL_ACCESS,FALSE,ids[NO_MAT-1])) == NULL){
+	if((hArch[NO_MAT] = OpenFileMapping(FILE_MAP_ALL_ACCESS,FALSE,ids[NO_MAT])) == NULL){
 		printf("No se abrio el archivo de mapero de la memoria compartida para el semaforo: (ERROR %i)\n",GetLastError());
 		exit(-1);
 	}	
@@ -55,9 +55,9 @@ void main(){
  		exit(-1);
 	}
 
-	if((apTS = (char *) MapViewOfFile(hArch[NO_MAT-1],FILE_MAP_ALL_ACCESS,0,0,sizeof(char))) == NULL){
+	if((apDS = (char *) MapViewOfFile(hArch[NO_MAT],FILE_MAP_ALL_ACCESS,0,0,sizeof(char))) == NULL){
  		printf("No se accedio a la memoria compartida del semaforo: (ERROR %i) \n", GetLastError());// 
- 		CloseHandle(hArch[NO_MAT-1]);
+ 		CloseHandle(hArch[NO_MAT]);
  		exit(-1);	
  	}
 

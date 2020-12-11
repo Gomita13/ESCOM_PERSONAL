@@ -163,8 +163,9 @@ void init(void **matrix,unsigned char rows,unsigned char cols){
 
 void main(){
 	char **mats[NO_MAT] = {NULL,NULL,NULL}; //Arreglo de matrices
-	key_t keys[NO_MAT] = {5510,5511,5512}; //Los ultimos dos numeros son hex
-	int ids[NO_MAT] = {-1,-1,-1};
+	char *apDS, *apTS;
+	key_t keys[NO_MAT+1] = {5510,5511,5512,5599}; //Matrices A(10),B(11),C(12),semaforo(99)
+	int ids[NO_MAT+1] = {-1,-1,-1,-1};
 	int A[N][N] = {{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0}};
 	int B[N][N] = {{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0},{0,0,0,0,0}};
 	char i = 0, j = 0, k = 0;
@@ -184,6 +185,21 @@ void main(){
 			exit(1);
 		}
 	}
+
+	//Obtengo memoria para el semaforo
+	ids[NO_MAT] = shmget(keys[NO_MAT],TAM_MEM,IPC_CREAT|0666);
+	if(ids[NO_MAT] == -1){
+		perror("Sem: An error ocurred during shmget():\n");
+		exit(1);
+	}
+	//Obtengo acceso a la memoria, soy admin
+	mats[NO_MAT] = shmat(ids[NO_MAT],NULL,0);
+	if(mats[NO_MAT] == (char *) -1){
+		perror("Sem: An error ocurred during shmat():\n");
+		exit(1);
+	}
+
+	*apTS='n';
 
 	//Preparando las matrices para manipulacion
 	for(i=0;i<NO_MAT;i++){
@@ -222,7 +238,11 @@ void main(){
 			exit(1);		
 		}
 	}else{//Es el padre
-		wait(NULL);
+
+		//Esperamos a que los hijos acaben
+		while(*apTS!='p'){
+			sleep(1);
+		}
 		
 		//Preparamos las matrices para manipulacion
 		for(i=0;i<NO_MAT;i++){

@@ -10,7 +10,7 @@
 #include <sys/shm.h> 
 #include <stdio.h> 
 //Si modificas NO_MAT, agrega o elimina IDs en el arreglo keys[] 
-#define NO_MAT 3
+#define NO_MAT 2
 //Modifica el tamaño de la matriz
 #define N 5 
 //Modifica el tipo de dato si deseas
@@ -39,8 +39,9 @@ void init(void **matrix, unsigned char rows, unsigned char cols){
 
 void main(int argc, char *argv[]){
 	char **mats[NO_MAT]; //Arreglo de matrices
-	key_t keys[NO_MAT] = {5510,5511}; //A(10) y B(11)
-	int ids[NO_MAT];
+	char *apDS, *apTS;
+	key_t keys[NO_MAT+1] = {5510,5511,5599}; //A(10), B(11) y semaforo (99)
+	int ids[NO_MAT+1];
 	char i = 0, j = 0;
 
 	//Obtengo la memoria de las matrices
@@ -58,6 +59,26 @@ void main(int argc, char *argv[]){
 		}
 	}
 
+	//Obtengo la memoria del semaforo
+	ids[NO_MAT] = shmget(keys[NO_MAT],sizeof(char),0666);
+	if(ids[NO_MAT] == -1){
+		perror("Sem: An error ocurred during shmget():\n");
+		exit(1);
+	}
+	//Obtengo acceso a la memoria, soy admin
+	apDS = shmat(ids[NO_MAT],NULL,0);
+	if(apDS == (char *) -1){
+		perror("Sem: An error ocurred during shmat():\n");
+		exit(1);
+	}
+
+	apTS = apDS;
+
+	//Espero a que termine el nieto
+	while(*apTS != 'h'){
+		sleep(1);
+	}
+
 	for(i=0;i<NO_MAT;i++){
 		init((void*)mats[i],5,5);
 	}
@@ -71,6 +92,9 @@ void main(int argc, char *argv[]){
 		}
 		printf("\n");
 	}
+
+	//Le paso el control al padre
+	*apTS = 'p';
 
 	//Desvinculamos la memoria compartida y salimos del programa
 	for(i=0;i<NO_MAT;i++){

@@ -18,54 +18,52 @@ void main(){
 	//Estructuras para la creacion de procesos hijos
 	STARTUPINFO si;
 	PROCESS_INFORMATION pi;
-	HANDLE hArch[NO_MAT+1] = {NULL,NULL,NULL}; //Arreglo de handlers para las matrices y semaforo
-	char *ids[NO_MAT+1] = {"MatrizA","MatrizB","Semaforo"};
+	HANDLE hArch[NO_MAT] = {NULL,NULL}; //Arreglo de handlers para las matrices y semaforo
+	HANDLE semPH, semHN; //Semaforo Padre-Hijo, Semaforo Hijo-Nieto
+	char *ids[NO_MAT+2] = {"MatrizA","MatrizB","SemaforoPH","SemaforoHN"};
 	//Direccion al programa que ejecutara el proceso hijo
-	char path[] = "C:/Users//gamma//Documents//Programas//ESCOM_PERSONAL//SO//WINDOWS//hijoMulti.exe";
+	char path[] = "C:/Users//gamma//Documents//Programas//ESCOM_PERSONAL//SO//P5//WINDOWS//hijoMulti.exe";
 	unsigned char (*apDA)[N], (*apDB)[N]; //Apuntadores para datos
 	unsigned char (*apTA)[N], (*apTB)[N]; //Apuntadores para manipulacion
-	char *apTS, *apDS;
 	char i = 0, j = 0; 
 
 	//Obtenemos la memoria para las matrices
 	for(i=0;i<NO_MAT;i++){
 		//Obtenemos la memoria compartida
 		if((hArch[i]=OpenFileMapping(FILE_MAP_ALL_ACCESS,FALSE,ids[i])) == NULL){
-			printf("No se abrio archivo de mapeo de la memoria compartida para la matriz %i: (ERROR %i)\n", i, GetLastError());
+			printf("(hijoSuma) No se abrio archivo de mapeo de la memoria compartida para la matriz %i: (ERROR %i)\n", i, GetLastError());
 			exit(-1);
 		}
 	}
-
-	//Obtenemos memoria para el semaforo
-	if((hArch[NO_MAT] = OpenFileMapping(FILE_MAP_ALL_ACCESS,FALSE,ids[NO_MAT])) == NULL){
-		printf("No se abrio el archivo de mapero de la memoria compartida para el semaforo: (ERROR %i)\n",GetLastError());
+	
+	//Obtenemos el semaforo que comparten Padre-Hijo
+	if((semPH = OpenSemaphore(SEMAPHORE_ALL_ACCESS, FALSE, ids[NO_MAT])) == NULL)               {
+		printf("(hijoSuma.PH) Falla al invocar OpenSemaphore: %d\n", GetLastError());         
 		exit(-1);
-	}	
+	}
 
+	//Creamos el semaforo que compartiran Hijo-Nieto
+	if((semHN = CreateSemaphore(NULL, 1, 1, ids[NO_MAT+1])) == NULL)               {
+		printf("(hijoSuma.HN) Falla al invocar CreateSemaphore: %d\n", GetLastError());         
+		exit(-1);
+	}       
+	
 	//Abrimos la memoria compartida
 	if((apDA=(unsigned char(*)[N])MapViewOfFile(hArch[0],FILE_MAP_ALL_ACCESS,0,0,TAM_MEM)) == NULL){
- 		printf("No se accedio a la memoria compartida de la matriz A: (ERROR %i)\n", GetLastError());// 
+ 		printf("(hijoSuma) No se accedio a la memoria compartida de la matriz A: (ERROR %i)\n", GetLastError());// 
  		CloseHandle(hArch[0]);
  		exit(-1);
 	}
 
 	if((apDB=(unsigned char(*)[N])MapViewOfFile(hArch[1],FILE_MAP_ALL_ACCESS,0,0,TAM_MEM)) == NULL){
- 		printf("No se accedio a la memoria compartida de la matriz A: (ERROR %i)\n", GetLastError());// 
+ 		printf("(hijoSuma) No se accedio a la memoria compartida de la matriz A: (ERROR %i)\n", GetLastError());// 
  		CloseHandle(hArch[1]);
  		exit(-1);
 	}
 
-	if((apDS = (char *) MapViewOfFile(hArch[NO_MAT],FILE_MAP_ALL_ACCESS,0,0,sizeof(char))) == NULL){
- 		printf("No se accedio a la memoria compartida del semaforo: (ERROR %i) \n", GetLastError());// 
- 		CloseHandle(hArch[NO_MAT]);
- 		exit(-1);	
- 	}
-
-
 	//Apuntamos a los segmentos para manipulacion
 	apTA = apDA;
 	apTB = apDB;
-	apTS = apDS;
 	
 	//Primero, vamos a ejecutar al nieto
 	ZeroMemory(&si,sizeof(si));
@@ -73,21 +71,21 @@ void main(){
 
 	ZeroMemory(&pi,sizeof(pi));
 	if(!CreateProcess(NULL,path,NULL,NULL,FALSE,0,NULL,NULL,&si,&pi)){
-		printf("Fallo al crear el proceso hijoMulti\n");
+		printf("(hijoSuma) Fallo al crear el proceso hijoMulti\n");
 		UnmapViewOfFile(apDA);
 		UnmapViewOfFile(apDB);
-		UnmapViewOfFile(apDS);
 	 	CloseHandle(hArch[0]);
 	 	CloseHandle(hArch[1]);
-	 	CloseHandle(hArch[2]); 	
+	 	CloseHandle(semPH);
+	 	CloseHandle(semHN);
+	 	CloseHandle(pi.hProcess);
+		CloseHandle(pi.hThread);
 	 	exit(1);
 	}
 
-	//Si lo pudo crear, esperamos
-	while(*apTS!='h'){
-		sleep(1);
-	}
-
+	//Si pudo crear al hijo, esperamos a que libere el semaforo HN
+	WaitForSingleObject(semHN,INFINITE);
+	printf("El nieto ha liberado el semaforo\n");
 	//Ahora ejecutamos la suma
 	//A = A + B
 	for(i=0;i<5;i++){
@@ -97,14 +95,17 @@ void main(){
 	}
 
 	//Terminamos, pasamos el semaforo al padre
-	*apTS = 'p';
+	if (!ReleaseSemaphore(semPH, 1, NULL) )     {        
+		printf("(hijoSuma) Falla al invocar ReleaseSemaphore: %d\n", GetLastError());     
+	}
 	
 	UnmapViewOfFile(apDA);
 	UnmapViewOfFile(apDB);
-	UnmapViewOfFile(apDS);
  	CloseHandle(hArch[0]);
  	CloseHandle(hArch[1]);
- 	CloseHandle(hArch[2]);
-
+ 	CloseHandle(semPH);
+ 	CloseHandle(semHN);
+ 	CloseHandle(pi.hProcess);
+	CloseHandle(pi.hThread);
  	exit(0); 
 }

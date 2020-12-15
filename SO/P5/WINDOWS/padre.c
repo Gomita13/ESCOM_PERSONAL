@@ -142,11 +142,12 @@ void main(){
 	//Estructuras para la creacion de procesos hijos
 	STARTUPINFO si;
 	PROCESS_INFORMATION pi;
-	HANDLE hArch[NO_MAT+1] = {NULL,NULL,NULL,NULL}; //Arreglo de handlers para las matrices
-	char *ids[NO_MAT+1] = {"MatrizA","MatrizB","MatrizC","Semaforo"};
+	HANDLE hArch[NO_MAT] = {NULL,NULL,NULL}; //Arreglo de handlers para las matrices
+	HANDLE semPH;
+	char *ids[NO_MAT+1] = {"MatrizA","MatrizB","MatrizC","SemaforoPH"};
 	//Direccion al programa que ejecutara el proceso hijo
-	char path[] = "C:/Users//gamma//Documents//Programas//ESCOM_PERSONAL//SO//WINDOWS//hijoSuma.exe";
-	char i = 0, j = 0, *apDS, *apTS; 
+	char path[] = "C:/Users//gamma//Documents//Programas//ESCOM_PERSONAL//SO//P5//WINDOWS//hijoSuma.exe";
+	char i = 0, j = 0;
 	unsigned char matA[N][N] = {{1,2,3,4,5},{6,7,8,9,0},{5,4,3,2,1},{8,7,6,5,4},{4,7,8,9,1}};
 	unsigned char matB[N][N] = {{1,2,3,4,5},{6,7,8,9,0},{5,4,3,2,1},{8,7,6,5,4},{4,7,8,9,1}};
 	unsigned char (*apDA)[N], (*apDB)[N], (*apDC)[N];
@@ -155,47 +156,40 @@ void main(){
 	//Creamos la memoria para las matrices
 	for(i=0;i<NO_MAT;i++){
 		if ((hArch[i] = CreateFileMapping(INVALID_HANDLE_VALUE,NULL,PAGE_READWRITE,0,TAM_MEM,ids[i])) == NULL){
-			printf("No se pudo crear el archivo de maapeo de la memoria para la matriz %i: (ERROR %i)\n",GetLastError());
+			printf("(padre) No se pudo crear el archivo de maapeo de la memoria para la matriz %i: (ERROR %i)\n",GetLastError());
 			exit(-1);
 		}
 	}
 
-	//Creamos la memoria compartida para el semaforo
-	if ((hArch[NO_MAT] = CreateFileMapping(INVALID_HANDLE_VALUE,NULL,PAGE_READWRITE,0,sizeof(char),ids[NO_MAT])) == NULL){
-		printf("No se pudo crear el archivo de maapeo de la memoria para el semaforo: (ERROR %i)\n",GetLastError());
-		exit(-1);
-	}
+	//Creamos el semaforo
+	if((semPH = CreateSemaphore(NULL, 1, 1, ids[NO_MAT])) == NULL)               {
+		printf("(padre) Falla al invocar CreateSemaphore: %d\n", GetLastError());         
+		exit(-1); 
+	}       
 	
 
 	if((apDA=(unsigned char(*)[N])MapViewOfFile(hArch[0],FILE_MAP_ALL_ACCESS,0,0,TAM_MEM)) == NULL){
- 		printf("No se accedio a la memoria compartida de la matriz A: (%i)\n", GetLastError());// 
+ 		printf("(padre) No se accedio a la memoria compartida de la matriz A: (%i)\n", GetLastError());// 
  		CloseHandle(hArch[0]);
  		exit(-1);
  	}
 
  	if((apDB=(unsigned char(*)[N])MapViewOfFile(hArch[1],FILE_MAP_ALL_ACCESS,0,0,TAM_MEM)) == NULL){
- 		printf("No se accedio a la memoria compartida de la matriz A: (%i)\n", GetLastError());// 
+ 		printf("(padre) No se accedio a la memoria compartida de la matriz A: (%i)\n", GetLastError());// 
  		CloseHandle(hArch[1]);
  		exit(-1);
  	}
 
  	if((apDC=(unsigned char(*)[N])MapViewOfFile(hArch[2],FILE_MAP_ALL_ACCESS,0,0,TAM_MEM)) == NULL){
- 		printf("No se accedio a la memoria compartida de la matriz A: (%i)\n", GetLastError());// 
+ 		printf("(padre) No se accedio a la memoria compartida de la matriz A: (%i)\n", GetLastError());// 
  		CloseHandle(hArch[2]);
  		exit(-1);
- 	}
-
- 	if((apDS = (char *) MapViewOfFile(hArch[NO_MAT],FILE_MAP_ALL_ACCESS,0,0,sizeof(char))) == NULL){
- 		printf("No se accedio a la memoria compartida del semaforo: (ERROR %i) \n", GetLastError());// 
- 		CloseHandle(hArch[NO_MAT]);
- 		exit(-1);	
  	}
 
  	//Apuntadores para poder manipular las matrices
  	apTA = apDA;
  	apTB = apDB;
  	apTC = apDC;
- 	apTS = apDS;
 
  	//Inicializamos las matrices
 	for(i=0;i<N;i++){
@@ -206,31 +200,29 @@ void main(){
 		}
 	}
 
-	//Establecemos el valor del semaforo
-	*apTS = 'n'; //Esperando al nieto
-
 	//Creamos el proceso hijo
 	ZeroMemory(&si,sizeof(si));
 	si.cb = sizeof(si);
 
 	ZeroMemory(&pi,sizeof(pi));
 	if(!CreateProcess(NULL,path,NULL,NULL,FALSE,0,NULL,NULL,&si,&pi)){
-		printf("Fallo al crear el proceso hijoSuma\n");
-		UnmapViewOfFile(apDA);
+		printf("(padre) Fallo al crear el proceso hijoSuma\n");
+		CloseHandle(pi.hProcess);
+		CloseHandle(pi.hThread);
+	 	UnmapViewOfFile(apDA);
 	 	UnmapViewOfFile(apDB);
-	 	UnmapViewOfFile(apDC);   
+	 	UnmapViewOfFile(apDC);
 	 	CloseHandle(hArch[0]);   
 	 	CloseHandle(hArch[1]);   
-	 	CloseHandle(hArch[2]);   	
+	 	CloseHandle(hArch[2]);
+	 	CloseHandle(semPH);   
 	 	exit(1);
 	}
 
-	//Si lo pudo crear, esperamos
-	while(*apTS!='p'){
-		sleep(1);
-	}
- 	
-	printf("Hijos terminados\n");
+	//Esperamos a que el hijo libere al semaforo
+	WaitForSingleObject(semPH,INFINITE);
+
+	printf("Hijo ha liberado el semaforo\n");
 
 	//Vaciamos las matrices resultantes en matA y matB
 	for(i=0;i<5;i++){
@@ -266,10 +258,9 @@ void main(){
  	UnmapViewOfFile(apDA);
  	UnmapViewOfFile(apDB);
  	UnmapViewOfFile(apDC);
- 	UnmapViewOfFile(apDS);   
  	CloseHandle(hArch[0]);   
  	CloseHandle(hArch[1]);   
  	CloseHandle(hArch[2]);
- 	CloseHandle(hArch[3]);   
+ 	CloseHandle(semPH);   
  	exit(0); 
 }

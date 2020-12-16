@@ -1,3 +1,12 @@
+/*
+	FECHA: 15/12/2020
+	AUTORA: S GAMALIEL
+	DESCRIPCION: El proposito de este programa hijo es mostrar el funcionamiento de los semaforos
+		con otra aplicacion, en este caso el programa hijo se ejecuta y bloquea el semaforo, realiza
+		todas las tareas necesarias para las cuales fue diseñado y posteriormente libera el semaforo.
+		Una vez liberado el semaforo por el hijo, el padre puede realizar las tareas para las que fue
+		programado. Finaliza el programa.
+*/
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,31 +38,29 @@ void main(){
 		exit(-1);
 	}
 
-	char espera = 1;
-	DWORD waitResult; 
-	LPLONG count;
-	while(espera){
-		waitResult = WaitForSingleObject(sem,0L);
-		printf("Hijo...\n");
-		switch(waitResult){
-			case WAIT_OBJECT_0:
-				//Bloqueado con exito
-				printf("Mi papa me envia esto: %c\n",*apT);
-				//Modifico el valor 
-				*apT = 'h';
-				ReleaseSemaphore(sem, 0, count)         ;
-					
-				printf("%i\n",count);   
-				printf("Hijo: He liberado el semaforo\n");
-				//Salgo del while
-				espera = 0;
-			break;
-			case WAIT_TIMEOUT:
-				printf("(hi.c) No he bloquear el semaforo, esperando 100ms\n");
-				Sleep(100);
-			break;
-		}
+	apT = apD; //Accedemos a los datos de la memoria compartida
+	
+	//Bloqueamos el semaforo
+	WaitForSingleObject(sem,INFINITE);
+
+	printf("(hi) Bloqueo, semaforo ahora en 0\n");
+	printf("Esto es lo que me envia mi papa: %c\n",*apT);
+	
+	char i = 0; 
+
+	for(i=0;i<27;i++){
+		printf("Sorry!\n");
 	}
+
+	//Le mandamos un mensaje a mi papa
+	*apT = '*';
+
+	if(!ReleaseSemaphore(sem,1,NULL)){
+		printf("(hi.c) ERROR: No se ha podido liberar el semaforo\n");
+	}
+
+	printf("(hi) Semaforo liberado, semaforo ahora en 1\n");
+	
 	
 	UnmapViewOfFile(apD);
 	CloseHandle(sem);

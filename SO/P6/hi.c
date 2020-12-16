@@ -30,17 +30,21 @@ void main(){
 	}
 
 	char espera = 1;
+	DWORD waitResult; 
+	LPLONG count;
 	while(espera){
-		//Bloqueamos el semaforo
-		switch(WaitForSingleObject(sem,0L)){
+		waitResult = WaitForSingleObject(sem,0L);
+		printf("Hijo...\n");
+		switch(waitResult){
 			case WAIT_OBJECT_0:
 				//Bloqueado con exito
 				printf("Mi papa me envia esto: %c\n",*apT);
 				//Modifico el valor 
 				*apT = 'h';
-				if (!ReleaseSemaphore(sem, 1, NULL)){         
-					printf("Falla al invocar ReleaseSemaphore: %d\n", GetLastError());     
-				}    
+				ReleaseSemaphore(sem, 0, count)         ;
+					
+				printf("%i\n",count);   
+				printf("Hijo: He liberado el semaforo\n");
 				//Salgo del while
 				espera = 0;
 			break;

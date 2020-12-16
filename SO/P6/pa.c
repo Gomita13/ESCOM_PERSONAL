@@ -35,11 +35,17 @@ void main(int argc, char *argv[]){
 	*apT = 'p';
 
 	//Creamos un semaforo con todos los recursos disponibles, es decir, nuestro hijo puede escribir inmediatemente
-	if((sem = CreateSemaphore(NULL,1,1,"Sem")) == NULL){
+	if((sem = CreateSemaphore(NULL,0,1,"Sem")) == NULL){
 		printf("(pa.c) ERROR: No se ha podido crear el semaforo %d\n",GetLastError());
 		CloseHandle(mem);
 		exit(-1);
 	}
+
+	//Creamos el proceso hijo
+	ZeroMemory(&si,sizeof(si));
+	si.cb = sizeof(si);
+
+	ZeroMemory(&pi,sizeof(pi));
 
 	//Creamos el hijo con el nombre especificado por la consolas
 	if(!CreateProcess(NULL, argv[1], NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))     {         
@@ -50,22 +56,28 @@ void main(int argc, char *argv[]){
 		exit(-1);
 	}
 
+	
 	/*A partir de aqui ya soy padre. Me toca esperar a mi hijo.
 	Espero a que bloquee el semaforo. Como solo hay 1 recurso y lo marque como disponible,
 	mi hijo obtendra un 0 al llamar a WaitForSingleObject. Si yo la llamo debe regresarme
 	otro valor distinto
 	*/
 	Sleep(2000); //Le doy dos segundos para bloquear el semaforo
+	
 	char espera = 1;
+	DWORD waitResult; 
+	LPLONG count;
 	while(espera){
-		switch(WaitForSingleObject(sem,0L)){
+		waitResult = WaitForSingleObject(sem,0L);
+		printf("Esperando...\n");
+		switch(waitResult){
 			case WAIT_OBJECT_0:
-				//Esto quiere decir que mi hijo ya ha liberado el semaforo
+				//Esto quiere decir que mi hijo ya ha liberado el semaforo*/
 				printf("Mi hijo esta enviando esto: %c\n",*apT);
 				//Me toca modificarlo
 				*apT = 'p';
 				//Ahora libero el semaforo
-				if (!ReleaseSemaphore(sem, 1, NULL)){         
+				if (!ReleaseSemaphore(sem, 1, count)){         
 					printf("Falla al invocar ReleaseSemaphore: %d\n", GetLastError());     
 				}    
 				//Salgo del while
@@ -73,15 +85,17 @@ void main(int argc, char *argv[]){
 			break;
 			case WAIT_TIMEOUT:
 				//Mi hijo sigue bloqueando el semaforo, lo espero
+			printf("Sewm count = %i\n",count);
 				Sleep(1000);
 			break;
 		}
 	}
-
 	Sleep(2000); //Nuevamente le doy dos segundos para bloquear el semaforo
+	
 	espera = 1;
+	char i = 0;
 	while(espera){
-		switch(WaitForSingleObject(sem,0L)){
+		switch(WaitForSingleObject(sem,INFINITE)){
 			case WAIT_OBJECT_0:
 				//Esto quiere decir que mi hijo ya ha liberado el semaforo
 				printf("Mi hijo esta enviando esto: %c\n",*apT);
@@ -96,10 +110,13 @@ void main(int argc, char *argv[]){
 			break;
 			case WAIT_TIMEOUT:
 				//Mi hijo sigue bloqueando el semaforo, lo espero
+				printf("Llevo %i segundos esperando\n",i);
 				Sleep(1000);
 			break;
 		}
 	}
+
+
 
 	UnmapViewOfFile(apD);
 	CloseHandle(pi.hProcess);   

@@ -59,6 +59,9 @@ void main(){
  	apTB = apDB;
  	apTC = apDC;
 
+ 	//Bloqueamos el semaforo para poder realizar la multiplicacion
+ 	WaitForSingleObject(semHN,INFINITE);
+
  	for(i=0;i<N;i++){
 		for(j=0;j<N;j++){
 			apTC[j][i]=0;

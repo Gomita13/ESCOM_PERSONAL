@@ -83,6 +83,11 @@ void main(){
 	 	exit(1);
 	}
 
+	//Bloqueamos el semaforo de padre-hijo
+	WaitForSingleObject(semPH,INFINITE);
+
+	Sleep(2000); //Esperamos a que el hijoMulti bloquee su semaforo
+
 	//Si pudo crear al hijo, esperamos a que libere el semaforo HN
 	WaitForSingleObject(semHN,INFINITE);
 	printf("El nieto ha liberado el semaforo\n");

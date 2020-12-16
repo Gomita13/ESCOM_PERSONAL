@@ -146,7 +146,7 @@ void main(){
 	HANDLE semPH;
 	char *ids[NO_MAT+1] = {"MatrizA","MatrizB","MatrizC","SemaforoPH"};
 	//Direccion al programa que ejecutara el proceso hijo
-	char path[] = "C:/Users//gamma//Documents//Programas//ESCOM_PERSONAL//SO//P5//WINDOWS//hijoSuma.exe";
+	char path[] = "C:/Users//gamma//Documents//Programas//ESCOM_PERSONAL//SO//MEMORIA_COMPARTIDA//WINDOWS//hijoSuma.exe";
 	char i = 0, j = 0;
 	unsigned char matA[N][N] = {{1,2,3,4,5},{6,7,8,9,0},{5,4,3,2,1},{8,7,6,5,4},{4,7,8,9,1}};
 	unsigned char matB[N][N] = {{1,2,3,4,5},{6,7,8,9,0},{5,4,3,2,1},{8,7,6,5,4},{4,7,8,9,1}};
@@ -219,10 +219,8 @@ void main(){
 	 	exit(1);
 	}
 
-	//Esperamos a que el hijo libere al semaforo
-	WaitForSingleObject(semPH,INFINITE);
-
-	printf("Hijo ha liberado el semaforo\n");
+	//Si lo pudo crear, esperamos a que el hijo termine
+	WaitForSingleObject(pi.hProcess,INFINITE);
 
 	//Vaciamos las matrices resultantes en matA y matB
 	for(i=0;i<5;i++){

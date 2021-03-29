@@ -22,7 +22,7 @@ void main(){
 	HANDLE semPH, semHN; //Semaforo Padre-Hijo, Semaforo Hijo-Nieto
 	char *ids[NO_MAT+2] = {"MatrizA","MatrizB","SemaforoPH","SemaforoHN"};
 	//Direccion al programa que ejecutara el proceso hijo
-	char path[] = "C:/Users//gamma//Documents//Programas//ESCOM_PERSONAL//SO//P5//WINDOWS//hijoMulti.exe";
+	//char path[] = "C:/Users//gamma//Documents//Programas//ESCOM_PERSONAL//SO//P5//WINDOWS//hijoMulti.exe";
 	unsigned char (*apDA)[N], (*apDB)[N]; //Apuntadores para datos
 	unsigned char (*apTA)[N], (*apTB)[N]; //Apuntadores para manipulacion
 	char i = 0, j = 0; 
@@ -70,7 +70,7 @@ void main(){
 	si.cb = sizeof(si);
 
 	ZeroMemory(&pi,sizeof(pi));
-	if(!CreateProcess(NULL,path,NULL,NULL,FALSE,0,NULL,NULL,&si,&pi)){
+	if(!CreateProcess(NULL,"hijoMulti.exe",NULL,NULL,FALSE,0,NULL,NULL,&si,&pi)){
 		printf("(hijoSuma) Fallo al crear el proceso hijoMulti\n");
 		UnmapViewOfFile(apDA);
 		UnmapViewOfFile(apDB);

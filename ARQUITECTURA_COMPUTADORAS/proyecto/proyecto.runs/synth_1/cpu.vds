@@ -1,0 +1,626 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Sat Jun 19 17:56:41 2021
+# Process ID: 1936
+# Current directory: D:/Documents/Programas/Vivado/proyecto/proyecto.runs/synth_1
+# Command line: vivado.exe -log cpu.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source cpu.tcl
+# Log file: D:/Documents/Programas/Vivado/proyecto/proyecto.runs/synth_1/cpu.vds
+# Journal file: D:/Documents/Programas/Vivado/proyecto/proyecto.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source cpu.tcl -notrace
+Command: synth_design -top cpu -part xc7a100tcsg324-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 12708 
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 362.027 ; gain = 99.980
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'cpu' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/cpu.vhd:14]
+	Parameter p bound to: 16 - type: integer 
+	Parameter q bound to: 8 - type: integer 
+INFO: [Synth 8-3491] module 'pila' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/pila.vhd:7' bound to instance 'i_Pila' of component 'pila' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/cpu.vhd:50]
+INFO: [Synth 8-638] synthesizing module 'pila' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/pila.vhd:19]
+	Parameter p bound to: 16 - type: integer 
+	Parameter q bound to: 8 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'pila' (1#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/pila.vhd:19]
+	Parameter p bound to: 10 - type: integer 
+	Parameter d bound to: 25 - type: integer 
+INFO: [Synth 8-3491] module 'memProg' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/memProg.vhd:6' bound to instance 'i_MemProg' of component 'memProg' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/cpu.vhd:61]
+INFO: [Synth 8-638] synthesizing module 'memProg' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/memProg.vhd:15]
+	Parameter p bound to: 10 - type: integer 
+	Parameter d bound to: 25 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'memProg' (2#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/memProg.vhd:15]
+INFO: [Synth 8-3491] module 'P11' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/P11.vhd:4' bound to instance 'i_UnidadC' of component 'P11' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/cpu.vhd:67]
+INFO: [Synth 8-638] synthesizing module 'P11' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/P11.vhd:13]
+INFO: [Synth 8-3491] module 'UC' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/UC.vhd:4' bound to instance 'i_UC' of component 'UC' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/P11.vhd:22]
+INFO: [Synth 8-638] synthesizing module 'UC' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/UC.vhd:9]
+INFO: [Synth 8-256] done synthesizing module 'UC' (3#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/UC.vhd:9]
+INFO: [Synth 8-3491] module 'Registro' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/Registro.vhd:4' bound to instance 'i_Registro' of component 'Registro' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/P11.vhd:42]
+INFO: [Synth 8-638] synthesizing module 'Registro' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/Registro.vhd:10]
+INFO: [Synth 8-256] done synthesizing module 'Registro' (4#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/Registro.vhd:10]
+INFO: [Synth 8-3491] module 'nivel' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/nivel.vhd:4' bound to instance 'i_Nivel' of component 'nivel' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/P11.vhd:52]
+INFO: [Synth 8-638] synthesizing module 'nivel' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/nivel.vhd:11]
+INFO: [Synth 8-256] done synthesizing module 'nivel' (5#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/nivel.vhd:11]
+INFO: [Synth 8-3491] module 'MopCode' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/MopCode.vhd:6' bound to instance 'i_MopCode' of component 'MopCode' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/P11.vhd:58]
+INFO: [Synth 8-638] synthesizing module 'MopCode' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/MopCode.vhd:11]
+INFO: [Synth 8-256] done synthesizing module 'MopCode' (6#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/MopCode.vhd:11]
+INFO: [Synth 8-3491] module 'MfunCode' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/MfunCode.vhd:5' bound to instance 'i_MfunCode' of component 'MfunCode' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/P11.vhd:62]
+INFO: [Synth 8-638] synthesizing module 'MfunCode' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/MfunCode.vhd:10]
+INFO: [Synth 8-256] done synthesizing module 'MfunCode' (7#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/MfunCode.vhd:10]
+INFO: [Synth 8-3491] module 'decod' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/decodificador.vhd:4' bound to instance 'i_Decodificador' of component 'decod' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/P11.vhd:66]
+INFO: [Synth 8-638] synthesizing module 'decod' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/decodificador.vhd:11]
+INFO: [Synth 8-256] done synthesizing module 'decod' (8#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/decodificador.vhd:11]
+INFO: [Synth 8-3491] module 'Condicion' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/Condicion.vhd:4' bound to instance 'i_Condicion' of component 'Condicion' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/P11.vhd:76]
+INFO: [Synth 8-638] synthesizing module 'Condicion' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/Condicion.vhd:9]
+INFO: [Synth 8-256] done synthesizing module 'Condicion' (9#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/Condicion.vhd:9]
+INFO: [Synth 8-256] done synthesizing module 'P11' (10#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/P11.vhd:13]
+INFO: [Synth 8-3491] module 'fileReg' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/fileReg.vhd:6' bound to instance 'i_ArchReg' of component 'fileReg' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/cpu.vhd:79]
+INFO: [Synth 8-638] synthesizing module 'fileReg' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/fileReg.vhd:15]
+INFO: [Synth 8-256] done synthesizing module 'fileReg' (11#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/fileReg.vhd:15]
+INFO: [Synth 8-3491] module 'ext_signo' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/ext_signo.vhd:4' bound to instance 'i_ExtSig' of component 'ext_signo' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/cpu.vhd:94]
+INFO: [Synth 8-638] synthesizing module 'ext_signo' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/ext_signo.vhd:11]
+INFO: [Synth 8-256] done synthesizing module 'ext_signo' (12#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/ext_signo.vhd:11]
+INFO: [Synth 8-3491] module 'ext_dir' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/ext_dir.vhd:4' bound to instance 'i_ExtDir' of component 'ext_dir' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/cpu.vhd:99]
+INFO: [Synth 8-638] synthesizing module 'ext_dir' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/ext_dir.vhd:11]
+INFO: [Synth 8-256] done synthesizing module 'ext_dir' (13#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/ext_dir.vhd:11]
+	Parameter p bound to: 16 - type: integer 
+INFO: [Synth 8-3491] module 'alu' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:4' bound to instance 'i_ALU' of component 'alu' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/cpu.vhd:108]
+INFO: [Synth 8-638] synthesizing module 'alu' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:20]
+	Parameter p bound to: 16 - type: integer 
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-638] synthesizing module 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:12]
+INFO: [Synth 8-3491] module 'sum1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/sumador1Bit.vhd:4' bound to instance 'sumador' of component 'sum1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:26]
+INFO: [Synth 8-638] synthesizing module 'sum1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/sumador1Bit.vhd:9]
+INFO: [Synth 8-256] done synthesizing module 'sum1Bit' (14#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/sumador1Bit.vhd:9]
+INFO: [Synth 8-256] done synthesizing module 'alu1Bit' (15#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:12]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-3491] module 'alu1Bit' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu1Bit.vhd:4' bound to instance 'alu' of component 'alu1Bit' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:37]
+INFO: [Synth 8-256] done synthesizing module 'alu' (16#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/alu.vhd:20]
+	Parameter p bound to: 10 - type: integer 
+	Parameter d bound to: 16 - type: integer 
+INFO: [Synth 8-3491] module 'memDatos' declared at 'D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/memDatos.vhd:6' bound to instance 'i_MemDatos' of component 'memDatos' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/cpu.vhd:121]
+INFO: [Synth 8-638] synthesizing module 'memDatos' [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/memDatos.vhd:17]
+	Parameter p bound to: 10 - type: integer 
+	Parameter d bound to: 16 - type: integer 
+INFO: [Synth 8-256] done synthesizing module 'memDatos' (17#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/memDatos.vhd:17]
+INFO: [Synth 8-256] done synthesizing module 'cpu' (18#1) [D:/Documents/Programas/Vivado/proyecto/proyecto.srcs/sources_1/new/cpu.vhd:14]
+WARNING: [Synth 8-3331] design Condicion has unconnected port Q[3]
+WARNING: [Synth 8-3331] design Condicion has unconnected port Q[0]
+WARNING: [Synth 8-3331] design UC has unconnected port clk
+WARNING: [Synth 8-3331] design UC has unconnected port clr
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 419.469 ; gain = 157.422
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 419.469 ; gain = 157.422
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a100tcsg324-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 419.469 ; gain = 157.422
+---------------------------------------------------------------------------------
+INFO: [Device 21-403] Loading part xc7a100tcsg324-1
+INFO: [Synth 8-5544] ROM "pila_reg[0]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "pila_reg[0]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "pila_reg[0]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "pila_reg[1]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "pila_reg[2]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "pila_reg[3]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "pila_reg[4]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "pila_reg[5]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5546] ROM "MemopCode" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "TIPOR" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "BEQI" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "BNEQI" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "BLTI" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "BLETI" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "BGTI" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5546] ROM "BGETI" won't be mapped to RAM because it is too sparse
+INFO: [Synth 8-5544] ROM "registry_reg[0]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[1]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[2]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[3]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[4]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[5]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[6]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[7]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[8]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[9]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[10]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[11]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[12]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[13]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[14]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "registry_reg[15]" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 454.000 ; gain = 191.953
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+No constraint files found.
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     16 Bit       Adders := 2     
+	   2 Input      3 Bit       Adders := 2     
++---XORs : 
+	   2 Input      1 Bit         XORs := 50    
+	   3 Input      1 Bit         XORs := 16    
++---Registers : 
+	               16 Bit    Registers := 24    
+	                4 Bit    Registers := 1     
+	                3 Bit    Registers := 1     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	  33 Input     20 Bit        Muxes := 1     
+	   2 Input     20 Bit        Muxes := 1     
+	   2 Input     16 Bit        Muxes := 10    
+	   2 Input     10 Bit        Muxes := 1     
+	   2 Input      5 Bit        Muxes := 1     
+	   2 Input      4 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 112   
+	   4 Input      1 Bit        Muxes := 16    
+	   3 Input      1 Bit        Muxes := 2     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module cpu 
+Detailed RTL Component Info : 
++---Registers : 
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   2 Input     16 Bit        Muxes := 5     
+	   2 Input     10 Bit        Muxes := 1     
+	   2 Input      4 Bit        Muxes := 1     
+Module pila 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     16 Bit       Adders := 2     
+	   2 Input      3 Bit       Adders := 2     
++---Registers : 
+	               16 Bit    Registers := 8     
+	                3 Bit    Registers := 1     
++---Muxes : 
+	   2 Input     16 Bit        Muxes := 3     
+	   2 Input      3 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 49    
+Module UC 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input      1 Bit        Muxes := 6     
+Module Registro 
+Detailed RTL Component Info : 
++---Registers : 
+	                4 Bit    Registers := 1     
+Module nivel 
+Detailed RTL Component Info : 
++---XORs : 
+	   2 Input      1 Bit         XORs := 1     
++---Registers : 
+	                1 Bit    Registers := 2     
+Module MopCode 
+Detailed RTL Component Info : 
++---Muxes : 
+	  33 Input     20 Bit        Muxes := 1     
+Module decod 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input      1 Bit        Muxes := 7     
+Module P11 
+Detailed RTL Component Info : 
++---Muxes : 
+	   2 Input     20 Bit        Muxes := 1     
+	   2 Input      5 Bit        Muxes := 1     
+Module fileReg 
+Detailed RTL Component Info : 
++---Registers : 
+	               16 Bit    Registers := 16    
++---Muxes : 
+	   2 Input     16 Bit        Muxes := 2     
+	   2 Input      1 Bit        Muxes := 48    
+Module sum1Bit 
+Detailed RTL Component Info : 
++---XORs : 
+	   3 Input      1 Bit         XORs := 1     
+Module alu1Bit 
+Detailed RTL Component Info : 
++---XORs : 
+	   2 Input      1 Bit         XORs := 3     
++---Muxes : 
+	   4 Input      1 Bit        Muxes := 1     
+Module alu 
+Detailed RTL Component Info : 
++---XORs : 
+	   2 Input      1 Bit         XORs := 1     
++---Muxes : 
+	   2 Input      1 Bit        Muxes := 2     
+	   3 Input      1 Bit        Muxes := 2     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 240 (col length:80)
+BRAMs: 270 (col length: RAMB18 80 RAMB36 40)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+Warning: Parallel synthesis criteria is not met 
+INFO: [Synth 8-5544] ROM "pila_reg[0]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "pila_reg[0]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "pila_reg[0]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "pila_reg[1]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "pila_reg[2]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "pila_reg[3]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "pila_reg[4]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "pila_reg[5]" won't be mapped to Block RAM because address size (3) smaller than threshold (5)
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[15][0]' (FDE) to 'i_ArchReg/registry_reg[14][0]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[14][0]' (FDE) to 'i_ArchReg/registry_reg[13][0]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[13][0]' (FDE) to 'i_ArchReg/registry_reg[12][0]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[12][0]' (FDE) to 'i_ArchReg/registry_reg[11][0]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[11][0]' (FDE) to 'i_ArchReg/registry_reg[10][0]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[10][0]' (FDE) to 'i_ArchReg/registry_reg[9][0]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[9][0]' (FDE) to 'i_ArchReg/registry_reg[8][0]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][0] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[7][0]' (FDCE) to 'i_ArchReg/registry_reg[6][0]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[6][0]' (FDCE) to 'i_ArchReg/registry_reg[5][0]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[5][0]' (FDCE) to 'i_ArchReg/registry_reg[4][0]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[4][0]' (FDCE) to 'i_ArchReg/registry_reg[3][0]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[3][0]' (FDCE) to 'i_ArchReg/registry_reg[2][0]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][0] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[15][1]' (FDE) to 'i_ArchReg/registry_reg[14][1]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[14][1]' (FDE) to 'i_ArchReg/registry_reg[13][1]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[13][1]' (FDE) to 'i_ArchReg/registry_reg[12][1]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[12][1]' (FDE) to 'i_ArchReg/registry_reg[11][1]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[11][1]' (FDE) to 'i_ArchReg/registry_reg[10][1]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[10][1]' (FDE) to 'i_ArchReg/registry_reg[9][1]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[9][1]' (FDE) to 'i_ArchReg/registry_reg[8][1]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][1] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[7][1]' (FDCE) to 'i_ArchReg/registry_reg[6][1]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[6][1]' (FDCE) to 'i_ArchReg/registry_reg[5][1]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[5][1]' (FDCE) to 'i_ArchReg/registry_reg[4][1]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[4][1]' (FDCE) to 'i_ArchReg/registry_reg[3][1]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[3][1]' (FDCE) to 'i_ArchReg/registry_reg[2][1]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][1] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[15][2]' (FDE) to 'i_ArchReg/registry_reg[14][2]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[14][2]' (FDE) to 'i_ArchReg/registry_reg[13][2]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[13][2]' (FDE) to 'i_ArchReg/registry_reg[12][2]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[12][2]' (FDE) to 'i_ArchReg/registry_reg[11][2]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[11][2]' (FDE) to 'i_ArchReg/registry_reg[10][2]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[10][2]' (FDE) to 'i_ArchReg/registry_reg[9][2]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[9][2]' (FDE) to 'i_ArchReg/registry_reg[8][2]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][2] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[7][2]' (FDCE) to 'i_ArchReg/registry_reg[6][2]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[6][2]' (FDCE) to 'i_ArchReg/registry_reg[5][2]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[5][2]' (FDCE) to 'i_ArchReg/registry_reg[4][2]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[4][2]' (FDCE) to 'i_ArchReg/registry_reg[3][2]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[3][2]' (FDCE) to 'i_ArchReg/registry_reg[2][2]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][2] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[15][3]' (FDE) to 'i_ArchReg/registry_reg[14][3]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[14][3]' (FDE) to 'i_ArchReg/registry_reg[13][3]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[13][3]' (FDE) to 'i_ArchReg/registry_reg[12][3]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[12][3]' (FDE) to 'i_ArchReg/registry_reg[11][3]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[11][3]' (FDE) to 'i_ArchReg/registry_reg[10][3]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[10][3]' (FDE) to 'i_ArchReg/registry_reg[9][3]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[9][3]' (FDE) to 'i_ArchReg/registry_reg[8][3]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][3] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[7][3]' (FDCE) to 'i_ArchReg/registry_reg[6][3]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[6][3]' (FDCE) to 'i_ArchReg/registry_reg[5][3]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[5][3]' (FDCE) to 'i_ArchReg/registry_reg[4][3]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[4][3]' (FDCE) to 'i_ArchReg/registry_reg[3][3]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[3][3]' (FDCE) to 'i_ArchReg/registry_reg[2][3]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][3] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[15][4]' (FDE) to 'i_ArchReg/registry_reg[14][4]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[14][4]' (FDE) to 'i_ArchReg/registry_reg[13][4]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[13][4]' (FDE) to 'i_ArchReg/registry_reg[12][4]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[12][4]' (FDE) to 'i_ArchReg/registry_reg[11][4]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[11][4]' (FDE) to 'i_ArchReg/registry_reg[10][4]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[10][4]' (FDE) to 'i_ArchReg/registry_reg[9][4]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[9][4]' (FDE) to 'i_ArchReg/registry_reg[8][4]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][4] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[7][4]' (FDCE) to 'i_ArchReg/registry_reg[6][4]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[6][4]' (FDCE) to 'i_ArchReg/registry_reg[5][4]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[5][4]' (FDCE) to 'i_ArchReg/registry_reg[4][4]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[4][4]' (FDCE) to 'i_ArchReg/registry_reg[3][4]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[3][4]' (FDCE) to 'i_ArchReg/registry_reg[2][4]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][4] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[15][5]' (FDE) to 'i_ArchReg/registry_reg[14][5]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[14][5]' (FDE) to 'i_ArchReg/registry_reg[13][5]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[13][5]' (FDE) to 'i_ArchReg/registry_reg[12][5]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[12][5]' (FDE) to 'i_ArchReg/registry_reg[11][5]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[11][5]' (FDE) to 'i_ArchReg/registry_reg[10][5]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[10][5]' (FDE) to 'i_ArchReg/registry_reg[9][5]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[9][5]' (FDE) to 'i_ArchReg/registry_reg[8][5]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][5] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[7][5]' (FDCE) to 'i_ArchReg/registry_reg[6][5]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[6][5]' (FDCE) to 'i_ArchReg/registry_reg[5][5]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[5][5]' (FDCE) to 'i_ArchReg/registry_reg[4][5]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[4][5]' (FDCE) to 'i_ArchReg/registry_reg[3][5]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[3][5]' (FDCE) to 'i_ArchReg/registry_reg[2][5]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][5] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[15][6]' (FDE) to 'i_ArchReg/registry_reg[14][6]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[14][6]' (FDE) to 'i_ArchReg/registry_reg[13][6]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[13][6]' (FDE) to 'i_ArchReg/registry_reg[12][6]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[12][6]' (FDE) to 'i_ArchReg/registry_reg[11][6]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[11][6]' (FDE) to 'i_ArchReg/registry_reg[10][6]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[10][6]' (FDE) to 'i_ArchReg/registry_reg[9][6]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[9][6]' (FDE) to 'i_ArchReg/registry_reg[8][6]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][6] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[7][6]' (FDCE) to 'i_ArchReg/registry_reg[6][6]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[6][6]' (FDCE) to 'i_ArchReg/registry_reg[5][6]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[5][6]' (FDCE) to 'i_ArchReg/registry_reg[4][6]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[4][6]' (FDCE) to 'i_ArchReg/registry_reg[3][6]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[3][6]' (FDCE) to 'i_ArchReg/registry_reg[2][6]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][6] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[15][7]' (FDE) to 'i_ArchReg/registry_reg[14][7]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[14][7]' (FDE) to 'i_ArchReg/registry_reg[13][7]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[13][7]' (FDE) to 'i_ArchReg/registry_reg[12][7]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[12][7]' (FDE) to 'i_ArchReg/registry_reg[11][7]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[11][7]' (FDE) to 'i_ArchReg/registry_reg[10][7]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[10][7]' (FDE) to 'i_ArchReg/registry_reg[9][7]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[9][7]' (FDE) to 'i_ArchReg/registry_reg[8][7]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][7] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[7][7]' (FDCE) to 'i_ArchReg/registry_reg[6][7]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[6][7]' (FDCE) to 'i_ArchReg/registry_reg[5][7]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[5][7]' (FDCE) to 'i_ArchReg/registry_reg[4][7]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[4][7]' (FDCE) to 'i_ArchReg/registry_reg[3][7]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[3][7]' (FDCE) to 'i_ArchReg/registry_reg[2][7]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][7] )
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[15][8]' (FDE) to 'i_ArchReg/registry_reg[14][8]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[14][8]' (FDE) to 'i_ArchReg/registry_reg[13][8]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[13][8]' (FDE) to 'i_ArchReg/registry_reg[12][8]'
+INFO: [Synth 8-3886] merging instance 'i_ArchReg/registry_reg[12][8]' (FDE) to 'i_ArchReg/registry_reg[11][8]'
+INFO: [Common 17-14] Message 'Synth 8-3886' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][8] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][8] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][9] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][9] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][10] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][10] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][11] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][11] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][12] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][12] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][13] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][13] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][14] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][14] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[8][15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\i_ArchReg/registry_reg[2][15] )
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:13 ; elapsed = 00:00:12 . Memory (MB): peak = 631.133 ; gain = 369.086
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+ROM:
++------------+------------+---------------+----------------+
+|Module Name | RTL Object | Depth x Width | Implemented As | 
++------------+------------+---------------+----------------+
+|memProg     | mem[0]     | 1024x25       | LUT            | 
+|memProg     | mem[0]     | 1024x25       | LUT            | 
++------------+------------+---------------+----------------+
+
+
+Distributed RAM: Preliminary Mapping  Report (see note below)
++------------+---------------------+-----------+----------------------+------------------+
+|Module Name | RTL Object          | Inference | Size (Depth x Width) | Primitives       | 
++------------+---------------------+-----------+----------------------+------------------+
+|cpu         | i_MemDatos/caja_reg | Implied   | 1 K x 16             | RAM256X1S x 64   | 
++------------+---------------------+-----------+----------------------+------------------+
+
+Note: The table above is a preliminary report that shows the Distributed RAMs at the current stage of the synthesis flow. Some Distributed RAMs may be reimplemented as non Distributed RAM primitives later in the synthesis flow. Multiple instantiated RAMs are reported only once.
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+No constraint files found.
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:13 ; elapsed = 00:00:12 . Memory (MB): peak = 631.133 ; gain = 369.086
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+Distributed RAM: Final Mapping  Report
++------------+---------------------+-----------+----------------------+------------------+
+|Module Name | RTL Object          | Inference | Size (Depth x Width) | Primitives       | 
++------------+---------------------+-----------+----------------------+------------------+
+|cpu         | i_MemDatos/caja_reg | Implied   | 1 K x 16             | RAM256X1S x 64   | 
++------------+---------------------+-----------+----------------------+------------------+
+
+---------------------------------------------------------------------------------
+Finished ROM, RAM, DSP and Shift Register Reporting
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 631.133 ; gain = 369.086
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 631.133 ; gain = 369.086
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 631.133 ; gain = 369.086
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 631.133 ; gain = 369.086
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 631.133 ; gain = 369.086
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 631.133 ; gain = 369.086
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 631.133 ; gain = 369.086
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+----------+------+
+|      |Cell      |Count |
++------+----------+------+
+|1     |BUFG      |     1|
+|2     |CARRY4    |     8|
+|3     |LUT1      |     8|
+|4     |LUT2      |    32|
+|5     |LUT3      |   103|
+|6     |LUT4      |    46|
+|7     |LUT5      |    21|
+|8     |LUT6      |   162|
+|9     |RAM256X1S |    64|
+|10    |FDCE      |   167|
+|11    |FDRE      |     1|
+|12    |IBUF      |     2|
+|13    |OBUF      |   105|
++------+----------+------+
+
+Report Instance Areas: 
++------+---------------+---------+------+
+|      |Instance       |Module   |Cells |
++------+---------------+---------+------+
+|1     |top            |         |   720|
+|2     |  i_ArchReg    |fileReg  |    67|
+|3     |  i_MemDatos   |memDatos |    80|
+|4     |  i_MemProg    |memProg  |     9|
+|5     |  i_Pila       |pila     |   443|
+|6     |  i_UnidadC    |P11      |    12|
+|7     |    i_Nivel    |nivel    |     5|
+|8     |    i_Registro |Registro |     7|
++------+---------------+---------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 631.133 ; gain = 369.086
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 4 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 631.133 ; gain = 369.086
+Synthesis Optimization Complete : Time (s): cpu = 00:00:14 ; elapsed = 00:00:14 . Memory (MB): peak = 631.133 ; gain = 369.086
+INFO: [Project 1-571] Translating synthesized netlist
+INFO: [Netlist 29-17] Analyzing 72 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 678.598 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 64 instances were transformed.
+  RAM256X1S => RAM256X1S (MUXF7, MUXF7, MUXF8, RAMS64E, RAMS64E, RAMS64E, RAMS64E): 64 instances
+
+INFO: [Common 17-83] Releasing license: Synthesis
+250 Infos, 4 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:19 ; elapsed = 00:00:20 . Memory (MB): peak = 678.598 ; gain = 425.676
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 678.598 ; gain = 0.000
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint 'D:/Documents/Programas/Vivado/proyecto/proyecto.runs/synth_1/cpu.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file cpu_utilization_synth.rpt -pb cpu_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Sat Jun 19 17:57:05 2021...

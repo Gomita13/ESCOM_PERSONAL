@@ -1,0 +1,204 @@
+; ESTE PROGRAMA CONSISTE EN MOSTRAR EN UN DISPLAY LOS NUMEROS PRESIONADOS QUE SE LEEN DE 
+; UN TECLADO DE CALCULADORA. CADA QUE SE PRESIONA UN NUMERO LOS DEMAS SE RECORREN A LA
+; IZQUIERDA.
+;
+
+.include"m8535def.inc"
+	.def aux =r16
+	.def col=r17
+	.def tec = r19
+	.def tecf = r20
+	.equ G = $40;  guión =$40 G=$7d
+	.equ CERO = $3f ;0 
+   	.equ UNO = $06 ;1  
+	.equ DOS = $5b ;2
+    .equ TRES = $4f ;3
+    .equ CUATRO = $66 ;4
+    .equ CINCO = $6d ;5
+    .equ SEIS = $7d ;6
+    .equ SIETE = $07 ;7
+    .equ OCHO = $7f ;8
+    .equ NUEVE = $6f ;9
+	.macro ldb
+	ldi aux,@1
+	mov @0,aux
+	.endm
+.macro mensaje
+;	ldb r9,@0 
+;	ldb r8,@1
+	ldb r7,@0 
+	ldb r6,@1
+	ldb r5,@2 
+	ldb r4,@3
+	ldb r3,@4 
+	ldb r2,@5
+	ldb r1,@6 
+	ldb r0,@7
+	.endm
+
+reset:
+	rjmp main ; vector de reset
+	rjmp mueve;verctor INT0
+	rjmp borra; vector INT1
+	.org $009
+	rjmp barre;vector timer0
+main:
+	ldi aux,low(ramend)
+	out spl,aux
+	ldi aux,high(ramend)
+	out sph,aux
+	rcall config_io
+	rcall texto0
+	clr zh
+	clr zl
+	ldi col,1
+	out portc,col
+	ld aux,z
+	out porta,aux
+fin:nop
+	nop
+	nop
+	rjmp fin
+
+config_io:
+	ser aux
+	out ddra,aux
+	out portb,aux
+	out ddrc,aux
+	out portd,aux
+	ldi aux,3
+	out tccr0,aux; preescala ck/64
+;	ldi aux,3
+;	out tccr1b,aux
+	ldi aux,$01; 0000 0001
+	out timsk,aux; toie0
+	ldi r18,193; para contar 63 4ms
+	ldi aux,$03; 0000 0011
+	out mcucr,aux
+	ldi aux,$C0; 1100 0000
+	out gicr,aux; habilito INT0 e INT1
+	sei
+	ret
+
+texto0:
+	mensaje G,G,G,G,G,G,G,G
+	ret
+barre:
+	out tcnt0,r18
+	out porta,zh
+	inc zl
+	lsl col
+	brne int_dos; si z = 0
+	ldi col,1
+	clr zl
+int_dos:
+	out portc,col
+	ld aux,z
+	out porta,aux
+	reti
+
+mueve:
+	mov r8,r7
+	mov r7,r6
+	mov r6,r5
+	mov r5,r4
+	mov r4,r3
+	mov r3,r2
+	mov r2,r1
+	mov r1,r0
+	in tec,pinb
+	cpi tec,$7e
+	breq D_AC
+	cpi tec,$be
+	breq D_CERO
+	cpi tec,$de
+	breq D_IGUAL
+	cpi tec,$ee
+	breq D_SUMA
+	cpi tec,$7d
+	breq D_UNO
+	cpi tec,$bd
+	breq D_DOS
+	cpi tec,$dd
+	breq D_TRES
+	cpi tec,$7b
+	breq D_CUATRO
+	cpi tec,$bb
+	breq D_CINCO
+	cpi tec,$db
+	breq D_SEIS
+	cpi tec,$77
+	breq D_SIETE
+	cpi tec,$b7
+	breq D_OCHO
+	cpi tec,$d7
+	breq D_NUEVE
+	cpi tec,$ed
+	breq D_MENOS
+	cpi tec,$eb
+	breq D_MULTI
+	cpi tec,$e7
+	breq D_DIVI
+suelta:
+	in tecf,pinb
+	cp tecf,tec
+	breq suelta  
+	reti
+D_AC: rcall borra
+D_CERO: 
+		ldb r0, CERO
+		rjmp suelta
+D_IGUAL:
+		ldb r0, G
+		rjmp suelta
+D_SUMA:
+		ldb r0, G
+		rjmp suelta
+D_UNO:	
+		ldb r0, UNO
+		rjmp suelta
+D_DOS:
+		ldb r0, DOS
+		rjmp suelta
+D_TRES:
+		ldb r0, TRES
+		rjmp suelta
+D_CUATRO:
+		ldb r0, CUATRO
+		rjmp suelta
+D_CINCO:
+		ldb r0, CINCO
+		rjmp suelta
+D_SEIS:
+		ldb r0, SEIS
+		rjmp suelta
+D_SIETE:
+		ldb r0, SIETE
+		rjmp suelta
+D_OCHO:
+		ldb r0, OCHO
+		rjmp suelta
+D_NUEVE:
+		ldb r0, NUEVE
+		rjmp suelta
+D_MENOS:
+		ldb r0, G
+		rjmp suelta
+D_MULTI:
+		ldb r0, G
+		rjmp suelta
+D_DIVI:
+		ldb r0, G
+		rjmp suelta
+borra:
+	ldb r9,G
+	mov r0,r1
+	mov r1,r2
+	mov r2,r3
+	mov r3,r4
+	mov r4,r5
+	mov r5,r6
+	mov r6,r7
+	mov r7,r8
+	mov r8,r9
+	reti
